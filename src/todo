@@ -1,0 +1,48 @@
+
+x convert path in planet to list of paths, so that when merged there can be multiple
+x make paths render before anything else
+x ability to place planets that dont move
+x make path predictor actually update the other planets too somehow
+x figure out some optimisations for the path predictor
+x change icon to be planets related
+x move header files to an include folder
+x make old paths start to disappear - give each point a timestamp?
+x add input handler class
+- add gui buttons - add planet, select planet, time slider, delete planet etc
+	-half finished:
+	x added class for button, need to make them function
+	- need to add class for text labels
+	- need to add class for time slider
+- add some sort of camera class - allows you to zoom in and out and pan around
+- use triangles instead of lines for paths so that they are smaller
+- when an object is moving, check if the distance from where it is to the first point on the path is below a threshold. if so, then set it to repeating and make it just follow its original path.
+- make the timesteps fixed - variation means the simulation is not deterministic :(
+- add physics class to encapsulate all of the random global variables and stuff
+- reimplement density
+	- mass and volume are conserved when creating a new object, so density is just (m1+m2)/(v1+v2)
+
+currently on 1113 lines of code
+
+
+
+
+NEW GAME PLAN!!!!
+resource management game - start with basic resources, such as petrol and iron or something. use this to build crappy rocket that can only just make it to moon
+- limited oxygen and water on board too, cant go too long without refilling
+- on the moon, some new metal is discovered that can make the rockets more lightweight and therefore go further.
+this can also be used to make a petrol refinery, which means that less of it is burnt.
+- on mars, another type of metal is found that is heavy, but can withstand greater pressure and temperature. this can be used for missions
+that go close to the sun, increasing the oxygen and water supply on the rocket, and to make a slightly more efficient thruster.
+- on asteroids, other rare metals such as platinum, gold etc can be found that can allow for electronics that show you what resources are on planets etc
+- nuclear fission and fusion could eventually be reached, with uranium / thorium located on venus or something and helium / hydrogen extracted from water
+with sufficient electronics.
+
+DEVELOPMENT PLAN
+most important features:
+Week 1 - 18/3/24 - 24/3/24
+- start new project, carry over the inputHandler class
+- create menu class that allows you to load a game, start a game, quit, change options (which will be blank)
+- create game class that takes over when you load in, also has pause menu and settings
+Week 2 - 25/3/24 - 31/3/24
+- Implement perlin noise - needed for height of terrain
+- Util function that takes in 2 polygons
