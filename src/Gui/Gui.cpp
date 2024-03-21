@@ -1,7 +1,5 @@
 #include "Gui/Gui.hpp"
-#include "Gui/Button.hpp"
 #include "Main.hpp"
-#include "gui/Label.hpp"
 #include "inputHandler.hpp"
 #include "utils.hpp"
 Gui::Gui()
@@ -15,6 +13,7 @@ void Gui::Init()
 	{
 		std::cout << "failed to load" << std::endl;
 	}
+	fpsLabel = new Label("", sf::FloatRect(0.f, 0.f, 0.1f, 0.05f), sf::Color::White);
 }
 void Gui::AddButton(Button* button)
 {
@@ -38,24 +37,24 @@ void Gui::Update()
 }
 void Gui::Render(float dt)
 {
-	Label testLabel("testing", sf::Vector2f(0.5f, 0.5f), sf::Vector2f(1.f, 1.f), sf::Color::White);
+	Panel panel(sf::FloatRect(0.f, 0.f, 1.f, 1.f), sf::Color(100, 100, 100));
+	panel.Render();
+	Label testLabel("behind this text is a grey panel", sf::Vector2f(0.5f, 0.5f), sf::Vector2f(1.f, 1.f), sf::Color::White);
 	testLabel.Render();
 	this->width = window->getSize().x;
 	this->height = window->getSize().y;
-	int fps = 1.f / dt;
-	sf::Text text;
-	text.setFont(*this->defaultFont);
-	text.setString(std::to_string(fps) + "fps");
-	text.setCharacterSize(20);
-	text.setFillColor(sf::Color::White);
-	text.setPosition(10, 10);
-	window->draw(text);
+	this->RenderFps(dt);
 	for (uint i { 0 }; i < buttons.size(); i++)
 	{
 		buttons[i]->Render();
 	}
 }
-
+void Gui::RenderFps(float dt)
+{
+	int fps = 1.f / dt;
+	fpsLabel->SetText(std::to_string(fps) + "fps");
+	fpsLabel->Render();
+}
 Gui::~Gui()
 {
 	delete defaultFont;
