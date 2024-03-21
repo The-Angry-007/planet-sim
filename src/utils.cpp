@@ -15,14 +15,3 @@ void drawLine(sf::Vector2f point1, sf::Vector2f point2, float thickness, sf::Col
 	line.setPosition(point1);
 	window->draw(line);
 }
-Planet* getPlanet(int id)
-{
-	for (uint i { 0 }; i < planets.size(); i++)
-	{
-		if (planets[i]->id == id)
-		{
-			return planets[i];
-		}
-	}
-	return nullptr;
-}
