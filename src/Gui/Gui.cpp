@@ -1,17 +1,9 @@
-#include "include/Gui.hpp"
-#include "include/Button.hpp"
-#include "include/Main.hpp"
-#include "include/inputHandler.hpp"
-#include "include/utils.hpp"
-void AddClicked()
-{
-}
-void SelectClicked()
-{
-}
-void DeleteClicked()
-{
-}
+#include "Gui/Gui.hpp"
+#include "Gui/Button.hpp"
+#include "Main.hpp"
+#include "gui/Label.hpp"
+#include "inputHandler.hpp"
+#include "utils.hpp"
 Gui::Gui()
 {
 }
@@ -19,12 +11,15 @@ Gui::Gui()
 void Gui::Init()
 {
 	this->defaultFont = new sf::Font();
-	if (!this->defaultFont->loadFromFile("src/fonts/NotoSansMono-Regular.ttf"))
+	if (!this->defaultFont->loadFromFile("resources/fonts/NotoSansMono-Regular.ttf"))
 	{
 		std::cout << "failed to load" << std::endl;
 	}
 }
-
+void Gui::AddButton(Button* button)
+{
+	buttons.push_back(button);
+}
 void Gui::Update()
 {
 	mouseBlockedByGui = false;
@@ -43,6 +38,8 @@ void Gui::Update()
 }
 void Gui::Render(float dt)
 {
+	Label testLabel("testing", sf::Vector2f(0.5f, 0.5f), sf::Vector2f(1.f, 1.f), sf::Color::White);
+	testLabel.Render();
 	this->width = window->getSize().x;
 	this->height = window->getSize().y;
 	int fps = 1.f / dt;

@@ -1,5 +1,5 @@
 #pragma once
-#include "include/Button.hpp"
+#include "Gui/Button.hpp"
 void AddClicked();
 void SelectClicked();
 void DeleteClicked();
@@ -16,6 +16,7 @@ public:
 	bool mouseBlockedByGui;
 	//to prevent weird sfml glitch where textures cause errors before renderwindow handle generated.
 	void Init();
+	void AddButton(Button* button);
 	Gui();
 	~Gui();
 };

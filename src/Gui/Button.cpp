@@ -1,7 +1,8 @@
-#include "include/Button.hpp"
+#include "Gui/Button.hpp"
+#include "Main.hpp"
 #include "PCH.hpp"
-#include "include/Main.hpp"
-#include "include/inputHandler.hpp"
+#include "inputHandler.hpp"
+#include "utils.hpp"
 Button::Button(sf::Vector2f pos, sf::Vector2f size, sf::Color col, std::string label)
 {
 	hasImageLabel = false;
@@ -52,26 +53,7 @@ void Button::Render()
 		sf::Vector2f padding(0.01f * gui.width, 0.01f * gui.height);
 		textLabel.setPosition(adjustedPos);
 		//binary search to find text size that fits within bounds
-		int min = 1;
-		int max = 100;
-		while (true)
-		{
-			if (min == max)
-			{
-				break;
-			}
-			int guess = (min + max) / 2;
-			textLabel.setCharacterSize(guess);
-			sf::FloatRect size = textLabel.getLocalBounds();
-			if (size.width + size.left > adjustedSize.x - padding.x || size.height + size.top > adjustedSize.y - padding.y)
-			{
-				max = guess;
-			}
-			else
-			{
-				min = guess + 1;
-			}
-		}
+		GetMaxFontSize(textLabel, sf::Vector2f(adjustedSize.x - padding.x, adjustedSize.y - padding.y));
 		sf::FloatRect bounds = textLabel.getLocalBounds();
 		textLabel.setOrigin((bounds.width + bounds.left) / 2.f, (bounds.height + bounds.top) / 2.f);
 		window->draw(textLabel);

@@ -1,6 +1,6 @@
-#include "include/utils.hpp"
+#include "utils.hpp"
+#include "Main.hpp"
 #include "PCH.hpp"
-#include "include/Main.hpp"
 #include <cmath>
 void drawLine(sf::Vector2f point1, sf::Vector2f point2, float thickness, sf::Color col)
 {
@@ -14,4 +14,28 @@ void drawLine(sf::Vector2f point1, sf::Vector2f point2, float thickness, sf::Col
 	line.setRotation(angle);
 	line.setPosition(point1);
 	window->draw(line);
+}
+
+void GetMaxFontSize(sf::Text& text, sf::Vector2f bounds)
+{
+	int min = 0;
+	int max = std::max(bounds.x, bounds.y);
+	while (true)
+	{
+		if (min == max)
+		{
+			break;
+		}
+		int guess = (min + max) / 2;
+		text.setCharacterSize(guess);
+		sf::FloatRect size = text.getLocalBounds();
+		if (size.width + size.left > bounds.x || size.height + size.top > bounds.y)
+		{
+			max = guess;
+		}
+		else
+		{
+			min = guess + 1;
+		}
+	}
 }

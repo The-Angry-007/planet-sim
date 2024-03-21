@@ -1,8 +1,8 @@
-#include "include/Main.hpp"
+#include "Main.hpp"
+#include "Gui/Gui.hpp"
 #include "PCH.hpp"
 #include "Platform/Platform.hpp"
-#include "include/Gui.hpp"
-#include "include/inputHandler.hpp"
+#include "inputHandler.hpp"
 #ifndef M_PI
 	#define M_PI 3.14159265358979323846
 #endif
@@ -24,8 +24,8 @@ int main()
 	window->setVerticalSyncEnabled(false);
 	sf::Vector2u windowSize = window->getSize();
 	sf::Image icon;
-	icon.loadFromFile("src/images/icon.png");
-	window->setIcon(110, 110, icon.getPixelsPtr());
+	icon.loadFromFile("resources/images/icon.png");
+	window->setIcon(256, 256, icon.getPixelsPtr());
 	gui.Init();
 	deltaClock.restart();
 	while (window->isOpen())
