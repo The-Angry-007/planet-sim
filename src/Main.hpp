@@ -4,4 +4,6 @@
 extern sf::RenderWindow* window;
 //the constant that determines the strength of gravity
 extern InputHandler inp;
-extern Gui gui;
+//extern Gui gui;
+extern int width, height;
+extern sf::Font* defaultFont;

@@ -15,7 +15,12 @@ Panel::Panel(sf::FloatRect bounds, sf::Color col)
 }
 void Panel::Render()
 {
-	panel.setPosition(bounds.left * gui.width, bounds.top * gui.height);
-	panel.setSize(sf::Vector2f(bounds.width * gui.width, bounds.height * gui.height));
+	panel.setPosition(bounds.left * width, bounds.top * height);
+	panel.setSize(sf::Vector2f(bounds.width * width, bounds.height * height));
 	window->draw(panel);
+}
+bool Panel::MouseOver()
+{
+	sf::Vector2f p = inp.mousePos;
+	return (p.x > bounds.left && p.x < bounds.left + bounds.width && p.y > bounds.top && p.y < bounds.top + bounds.height);
 }

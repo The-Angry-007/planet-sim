@@ -16,7 +16,7 @@ void drawLine(sf::Vector2f point1, sf::Vector2f point2, float thickness, sf::Col
 	window->draw(line);
 }
 
-void GetMaxFontSize(sf::Text& text, sf::Vector2f bounds)
+void GetMaxFontSize(sf::Text* text, sf::Vector2f bounds)
 {
 	int min = 0;
 	int max = std::max(bounds.x, bounds.y);
@@ -27,8 +27,8 @@ void GetMaxFontSize(sf::Text& text, sf::Vector2f bounds)
 			break;
 		}
 		int guess = (min + max) / 2;
-		text.setCharacterSize(guess);
-		sf::FloatRect size = text.getLocalBounds();
+		text->setCharacterSize(guess);
+		sf::FloatRect size = text->getLocalBounds();
 		if (size.width + size.left > bounds.x || size.height + size.top > bounds.y)
 		{
 			max = guess;

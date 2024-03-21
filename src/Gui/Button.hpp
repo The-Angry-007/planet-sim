@@ -1,9 +1,11 @@
 #pragma once
+void DefaultClickFunc();
+
 class Button
 {
 public:
-	Button(sf::Vector2f pos, sf::Vector2f size, sf::Color col, sf::Texture image);
-	Button(sf::Vector2f pos, sf::Vector2f size, sf::Color col, std::string label);
+	Button(sf::Vector2f pos, sf::Vector2f size, sf::Color col, sf::Texture image, std::function<void()> onClick = DefaultClickFunc);
+	Button(sf::Vector2f pos, sf::Vector2f size, sf::Color col, std::string label, sf::Color labelCol = sf::Color::Black, std::function<void()> onClick = DefaultClickFunc);
 	void Render();
 	bool clicked();
 	void AssignOnClick(std::function<void()> func);
@@ -22,4 +24,3 @@ private:
 	sf::Sprite imageSprite;
 	bool hasImageLabel;
 };
-void DefaultClickFunc();

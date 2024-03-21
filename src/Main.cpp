@@ -1,5 +1,6 @@
 #include "Main.hpp"
 #include "Gui/Gui.hpp"
+#include "Gui/Menu.hpp"
 #include "PCH.hpp"
 #include "Platform/Platform.hpp"
 #include "inputHandler.hpp"
@@ -10,10 +11,12 @@
 #include <math.h>
 
 sf::RenderWindow* window = new sf::RenderWindow();
-
 sf::Clock deltaClock;
-Gui gui;
+//Gui gui;
 InputHandler inp;
+sf::Font* defaultFont = new sf::Font();
+int width, height;
+Menu menu;
 int main()
 {
 	util::Platform platform;
@@ -23,10 +26,17 @@ int main()
 	window->create(sf::VideoMode(800.0f * screenScalingFactor, 500.0f * screenScalingFactor), "Planet Sim");
 	window->setVerticalSyncEnabled(false);
 	sf::Vector2u windowSize = window->getSize();
+	width = windowSize.x;
+	height = windowSize.y;
 	sf::Image icon;
 	icon.loadFromFile("resources/images/icon.png");
 	window->setIcon(256, 256, icon.getPixelsPtr());
-	gui.Init();
+	if (!defaultFont->loadFromFile("resources/fonts/Trispace-Regular.ttf"))
+	{
+		window->close();
+	}
+	//gui.Init();
+	menu = InitMainMenu();
 	deltaClock.restart();
 	while (window->isOpen())
 	{
@@ -36,37 +46,15 @@ int main()
 			windowSize = window->getSize();
 			sf::View view(sf::FloatRect(0, 0, windowSize.x, windowSize.y));
 			window->setView(view);
+			width = windowSize.x;
+			height = windowSize.y;
 		}
 		inp.ProcessEvents();
-		gui.Update();
 		double dt = deltaClock.restart().asSeconds();
-
+		menu.Update();
 		window->clear(sf::Color(8, 0, 20));
-		gui.Render(dt);
+		menu.Render(dt);
 		window->display();
 	}
 	return 0;
 }
-
-//setup solution to 3 body problem
-// Planet* p = new Planet(sf::Vector2f(0.9700436f, -0.24308753f), 1.f, 10.f);
-// p->velocity = sf::Vector2f(0.466203685f, 0.43236573f);
-// p->SetMass(1);
-// planets.push_back(p);
-// p = new Planet(-sf::Vector2f(0.9700436f, -0.24308753f), 1.f, 10.f);
-// p->velocity = sf::Vector2f(0.466203685f, 0.43236573f);
-// p->SetMass(1);
-
-// planets.push_back(p);
-// p = new Planet(sf::Vector2f(0.f, 0.f), 1.f, 10.f);
-// p->velocity = -2.f * sf::Vector2f(0.466203685f, 0.43236573f);
-// p->SetMass(1);
-//planets.push_back(p);
-// planets.push_back(new Planet(sf::Vector2f(-0.5f, 0), 0.1f, 10));
-// planets.push_back(new Planet(sf::Vector2f(0.f, 0), 0.1f, 10));
-// planets.push_back(new Planet(sf::Vector2f(0.5f, 0), 0.1f, 10));
-// for (int i = 0; i < 0; i++)
-// {
-// 	planets.push_back(new Planet(sf::Vector2f(rand() % width, rand() % height), rand() % 3 + 5));
-// 	planets[i]->GiveRandomVelocity(10);
-// }
