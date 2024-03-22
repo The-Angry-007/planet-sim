@@ -36,7 +36,7 @@ int main()
 		window->close();
 	}
 	//gui.Init();
-	menu = InitMainMenu();
+	menu = InitMenu();
 	deltaClock.restart();
 	while (window->isOpen())
 	{

@@ -7,3 +7,4 @@ extern InputHandler inp;
 //extern Gui gui;
 extern int width, height;
 extern sf::Font* defaultFont;
+extern Menu menu;

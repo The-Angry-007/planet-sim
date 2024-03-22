@@ -1,6 +1,7 @@
 #pragma once
 #include "Gui/Button.hpp"
 #include "Gui/Label.hpp"
+#include "Gui/Menu.hpp"
 #include "Gui/Panel.hpp"
 void AddClicked();
 void SelectClicked();

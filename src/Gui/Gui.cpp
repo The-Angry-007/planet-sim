@@ -42,6 +42,10 @@ void Gui::Update()
 void Gui::Render(float dt)
 {
 	this->RenderFps(dt);
+	for (uint i { 0 }; i < panels.size(); i++)
+	{
+		panels[i].Render();
+	}
 	for (uint i { 0 }; i < buttons.size(); i++)
 	{
 		buttons[i].Render();
@@ -49,10 +53,6 @@ void Gui::Render(float dt)
 	for (uint i { 0 }; i < labels.size(); i++)
 	{
 		labels[i].Render();
-	}
-	for (uint i { 0 }; i < panels.size(); i++)
-	{
-		panels[i].Render();
 	}
 }
 void Gui::RenderFps(float dt)

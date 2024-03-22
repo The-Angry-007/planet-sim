@@ -5,4 +5,5 @@ void NewGame();
 void LoadGame();
 void Options();
 void Quit();
+void GoBack();
 }

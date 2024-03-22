@@ -10,9 +10,13 @@ void ClickFuncs::LoadGame()
 }
 void ClickFuncs::Options()
 {
-	std::cout << "Options Clicked" << std::endl;
+	menu.OpenMenu(1);
 }
 void ClickFuncs::Quit()
 {
 	window->close();
+}
+void ClickFuncs::GoBack()
+{
+	menu.GoBack();
 }
