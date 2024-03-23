@@ -26,11 +26,12 @@ public:
 	void AddInpField(InputField field);
 	void RenderFps(float dt);
 	Gui();
+	//public so that contents can be read
+	std::vector<InputField> inpFields;
 	~Gui();
 
 private:
 	std::vector<Button> buttons;
 	std::vector<Label> labels;
 	std::vector<Panel> panels;
-	std::vector<InputField> inpFields;
 };

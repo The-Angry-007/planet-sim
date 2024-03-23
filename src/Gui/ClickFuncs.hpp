@@ -6,4 +6,5 @@ void LoadGame();
 void Options();
 void Quit();
 void GoBack();
+void CreateSave();
 }

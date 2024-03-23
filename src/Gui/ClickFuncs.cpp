@@ -1,5 +1,6 @@
 #include "ClickFuncs.hpp"
 #include "Main.hpp"
+#include "SaveHandler.hpp"
 void ClickFuncs::NewGame()
 {
 	menu.OpenMenu(2);
@@ -19,4 +20,8 @@ void ClickFuncs::Quit()
 void ClickFuncs::GoBack()
 {
 	menu.GoBack();
+}
+void ClickFuncs::CreateSave()
+{
+	SaveHandler::CreateSave(menu.getOpenGui()->inpFields[0].text);
 }

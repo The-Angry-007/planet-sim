@@ -1,0 +1,117 @@
+#include "SaveHandler.hpp"
+#include <chrono>
+#include <fstream>
+#include <iostream>
+#include <sys/stat.h>
+#include <windows.h>
+std::string SaveHandler::workingDir = "";
+void SaveHandler::CreateSave(std::string name)
+{
+	if (name == "")
+	{
+		name = "unnamed";
+	}
+	int index = 0;
+	std::string path;
+	while (true)
+	{
+
+		path = "saves/" + name;
+		if (index != 0)
+		{
+			path += (" " + std::to_string(index));
+		}
+		if (!dirExists(path))
+		{
+			break;
+		}
+		else
+		{
+			index++;
+		}
+	}
+	workingDir = path;
+	createDir(path);
+	//finds the date of creation and sets the the time last modified to now
+	std::string metadat = "";
+	int64_t seconds = getSeconds();
+	auto secondsString = std::to_string(seconds);
+	//converts this into a date
+	std::chrono::seconds sec(seconds);
+	std::chrono::time_point<std::chrono::system_clock> tp(sec);
+	// Convert to time_t for use with std::put_time
+	std::time_t time = std::chrono::system_clock::to_time_t(tp);
+	std::stringstream ss;
+	ss << std::put_time(std::localtime(&time), "%Y-%m-%d %H:%M");
+	std::string date = ss.str();
+
+	//now that the seconds since 1970 and the date have been obtained, they can be written to the metadata file.
+	//also, set the time played to 0 seconds
+	std::ofstream fs(workingDir + "/metadata.txt");
+	fs << date << std::endl
+	   << seconds << std::endl
+	   << "0";
+	fs.close();
+	UpdateTimePlayed(1000);
+}
+
+//c++ black magic fuckery
+bool SaveHandler::dirExists(std::string& path)
+{
+	struct stat info;
+	if (stat(path.c_str(), &info) != 0)
+		return false;
+	return (info.st_mode & S_IFDIR) != 0;
+}
+bool SaveHandler::createDir(std::string& path)
+{
+	return (CreateDirectoryA(path.c_str(), NULL));
+}
+
+void SaveHandler::UpdateModified()
+{
+	std::string path = workingDir + "/metadata.txt";
+	auto lines = getLines(path);
+	lines[1] = std::to_string(getSeconds());
+	WriteLines(lines, path);
+}
+void SaveHandler::UpdateTimePlayed(int seconds)
+{
+	std::string path = workingDir + "/metadata.txt";
+	auto lines = getLines(path);
+	int played = std::stoi(lines[2]);
+	played += seconds;
+	auto pstring = std::to_string(played);
+	lines[2] = pstring;
+	WriteLines(lines, path);
+}
+std::vector<std::string> SaveHandler::getLines(std::string path)
+{
+	std::string line;
+	std::vector<std::string> lines;
+	std::ifstream file(path);
+	while (getline(file, line))
+	{
+		lines.push_back(line);
+	}
+	file.close();
+	return lines;
+}
+void SaveHandler::WriteLines(std::vector<std::string> lines, std::string path)
+{
+	std::ofstream file(path);
+	for (uint i = 0; i < lines.size(); i++)
+	{
+		file << lines[i];
+		if (i != lines.size() - 1)
+		{
+			file << std::endl;
+		}
+	}
+	file.close();
+}
+int64_t SaveHandler::getSeconds()
+{
+	auto now = std::chrono::system_clock::now();
+	return std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
+}

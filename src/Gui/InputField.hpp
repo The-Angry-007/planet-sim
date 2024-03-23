@@ -10,6 +10,7 @@ public:
 	InputField(sf::Vector2f pos, sf::Vector2f size, sf::Color col, int maxChars = -1);
 	void Render();
 	void Update();
+	std::string text;
 
 private:
 	int maxChars;
@@ -17,7 +18,6 @@ private:
 	sf::FloatRect bounds;
 	sf::Color bgCol;
 	Label* label;
-	std::string text;
 	bool selected;
 	int typeSpot;
 };

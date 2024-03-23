@@ -61,9 +61,11 @@ Menu InitMenu()
 	//new game menu
 	Gui newGame;
 	newGame.Init();
-	newGame.AddPanel(Panel(sf::FloatRect(0.f, 0.f, 1.f, 1.f), sf::Color(80, 80, 80)));
+	newGame.AddPanel(Panel(sf::FloatRect(0.f, 0.f, 1.f, 1.f), sf::Color(100, 100, 100)));
 	newGame.AddButton(Button(sf::Vector2f(0.9f, 0.9f), sf::Vector2f(0.15f, 0.1f), sf::Color(50, 50, 50), "go back", sf::Color::White, ClickFuncs::GoBack));
-	newGame.AddInpField(InputField(sf::Vector2f(0.5f, 0.5f), sf::Vector2f(0.3f, 0.1f), sf::Color(150, 150, 150), 20));
+	newGame.AddInpField(InputField(sf::Vector2f(0.5f, 0.4f), sf::Vector2f(0.3f, 0.1f), sf::Color(150, 150, 150), 20));
+	newGame.AddLabel(Label("Enter a name", sf::Vector2f(0.5f, 0.3f), sf::Vector2f(0.3f, 0.1f), sf::Color::Black));
+	newGame.AddButton(Button(sf::Vector2f(0.5f, 0.6f), sf::Vector2f(0.3f, 0.1f), sf::Color(80, 80, 80), "Create Save", sf::Color::Black, ClickFuncs::CreateSave));
 	m.AddGui(newGame);
 	m.OpenMenu(0);
 	return m;
