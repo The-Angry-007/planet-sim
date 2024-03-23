@@ -29,7 +29,7 @@ void GetMaxFontSize(sf::Text* text, sf::Vector2f bounds)
 		int guess = (min + max) / 2;
 		text->setCharacterSize(guess);
 		sf::FloatRect size = text->getLocalBounds();
-		if (size.width + size.left > bounds.x || size.height + size.top > bounds.y)
+		if (size.width > bounds.x || size.height + size.top > bounds.y)
 		{
 			max = guess;
 		}

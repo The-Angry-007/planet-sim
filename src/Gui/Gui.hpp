@@ -1,5 +1,6 @@
 #pragma once
 #include "Gui/Button.hpp"
+#include "Gui/InputField.hpp"
 #include "Gui/Label.hpp"
 #include "Gui/Menu.hpp"
 #include "Gui/Panel.hpp"
@@ -22,6 +23,7 @@ public:
 	void AddButton(Button button);
 	void AddLabel(Label label);
 	void AddPanel(Panel panel);
+	void AddInpField(InputField field);
 	void RenderFps(float dt);
 	Gui();
 	~Gui();
@@ -30,4 +32,5 @@ private:
 	std::vector<Button> buttons;
 	std::vector<Label> labels;
 	std::vector<Panel> panels;
+	std::vector<InputField> inpFields;
 };

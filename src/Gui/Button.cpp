@@ -51,7 +51,7 @@ void Button::Render()
 	}
 	else
 	{
-		sf::Vector2f padding(0.01f * width, 0.01f * height);
+		sf::Vector2f padding(0.02f * width, 0.02f * height);
 		textLabel.setPosition((int)adjustedPos.x, (int)adjustedPos.y);
 		//binary search to find text size that fits within bounds
 		GetMaxFontSize(&textLabel, sf::Vector2f(adjustedSize.x - padding.x, adjustedSize.y - padding.y));

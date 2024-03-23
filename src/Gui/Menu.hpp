@@ -17,6 +17,7 @@ public:
 	void AddGui(Gui gui);
 	void Update();
 	void Render(float dt);
+	Gui* getOpenGui();
 
 private:
 	int openMenu;

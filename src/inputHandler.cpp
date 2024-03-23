@@ -10,8 +10,13 @@ void InputHandler::ProcessEvents()
 	mouseButtonsPressed = {};
 	mouseButtonsReleased = {};
 	mousePos = (sf::Vector2f)sf::Mouse::getPosition(*window);
+	typedText = "";
 	while (window->pollEvent(event))
 	{
+		if (event.type == event.TextEntered)
+		{
+			typedText = event.text.unicode;
+		}
 		if (event.type == event.Closed)
 		{
 			window->close();
@@ -125,4 +130,9 @@ int InputHandler::getIndex(std::vector<sf::Mouse::Button> buttons, sf::Mouse::Bu
 		}
 	}
 	return -1;
+}
+
+std::vector<sf::Keyboard::Key> InputHandler::getAllKeysPressed()
+{
+	return keysPressed;
 }

@@ -17,6 +17,10 @@ void Gui::AddButton(Button button)
 void Gui::Update()
 {
 	mouseBlockedByGui = false;
+	for (int i = (int)inpFields.size() - 1; i >= 0; i--)
+	{
+		inpFields[i].Update();
+	}
 	//this is backwards because the buttons most visible should have priority, this was implemented because the moon in the background of the main menu is
 	//actually a button (i got lazy)
 	for (int i = (int)buttons.size() - 1; i >= 0; i--)
@@ -54,6 +58,10 @@ void Gui::Render(float dt)
 	{
 		labels[i].Render();
 	}
+	for (uint i = 0; i < inpFields.size(); i++)
+	{
+		inpFields[i].Render();
+	}
 }
 void Gui::RenderFps(float dt)
 {
@@ -73,4 +81,9 @@ void Gui::AddLabel(Label label)
 void Gui::AddPanel(Panel panel)
 {
 	panels.push_back(panel);
+}
+
+void Gui::AddInpField(InputField field)
+{
+	inpFields.push_back(field);
 }

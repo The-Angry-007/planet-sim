@@ -2,7 +2,7 @@
 #include "Main.hpp"
 void ClickFuncs::NewGame()
 {
-	std::cout << "New Game Clicked" << std::endl;
+	menu.OpenMenu(2);
 }
 void ClickFuncs::LoadGame()
 {

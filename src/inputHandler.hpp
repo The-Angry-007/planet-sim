@@ -18,6 +18,8 @@ public:
 	sf::Vector2f mousePos;
 	sf::Vector2f screenToWorldPos(sf::Vector2f pos);
 	InputHandler();
+	std::vector<sf::Keyboard::Key> getAllKeysPressed();
+	std::string typedText;
 
 private:
 	sf::Event event;
