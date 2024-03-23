@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sys/stat.h>
 #include <windows.h>
-std::string SaveHandler::workingDir = "";
+std::string SaveHandler::workingDir = "saves";
 void SaveHandler::CreateSave(std::string name)
 {
 	if (name == "")
@@ -42,7 +42,7 @@ void SaveHandler::CreateSave(std::string name)
 	// Convert to time_t for use with std::put_time
 	std::time_t time = std::chrono::system_clock::to_time_t(tp);
 	std::stringstream ss;
-	ss << std::put_time(std::localtime(&time), "%Y-%m-%d %H:%M");
+	ss << std::put_time(std::localtime(&time), "%d-%m-%Y");
 	std::string date = ss.str();
 
 	//now that the seconds since 1970 and the date have been obtained, they can be written to the metadata file.
@@ -52,7 +52,6 @@ void SaveHandler::CreateSave(std::string name)
 	   << seconds << std::endl
 	   << "0";
 	fs.close();
-	UpdateTimePlayed(1000);
 }
 
 //c++ black magic fuckery
@@ -114,4 +113,38 @@ int64_t SaveHandler::getSeconds()
 {
 	auto now = std::chrono::system_clock::now();
 	return std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
+}
+
+std::vector<std::string> SaveHandler::listDirs(std::string& path)
+{
+
+	WIN32_FIND_DATAA findFileData;
+	HANDLE hFind = FindFirstFileA((path + "\\*").c_str(), &findFileData);
+
+	if (hFind == INVALID_HANDLE_VALUE)
+	{
+		std::cerr << "Failed to list directories in: " << path << std::endl;
+		return {};
+	}
+	std::vector<std::string> dirs;
+	do
+	{
+		if (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+		{
+			std::string directoryName = findFileData.cFileName;
+			// Skip "." and ".." entries
+			if (directoryName != "." && directoryName != "..")
+			{
+				dirs.push_back(directoryName);
+			}
+		}
+	} while (FindNextFileA(hFind, &findFileData) != 0);
+
+	FindClose(hFind);
+	return dirs;
+}
+
+void SaveHandler::ResetDir()
+{
+	workingDir = "saves";
 }

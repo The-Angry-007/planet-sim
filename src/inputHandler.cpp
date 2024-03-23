@@ -11,8 +11,13 @@ void InputHandler::ProcessEvents()
 	mouseButtonsReleased = {};
 	mousePos = (sf::Vector2f)sf::Mouse::getPosition(*window);
 	typedText = "";
+	scroll = sf::Vector2f(0.f, 0.f);
 	while (window->pollEvent(event))
 	{
+		if (event.type == event.MouseWheelScrolled)
+		{
+			scroll.y = event.mouseWheelScroll.delta;
+		}
 		if (event.type == event.TextEntered)
 		{
 			typedText = event.text.unicode;

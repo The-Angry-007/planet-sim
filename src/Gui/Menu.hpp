@@ -1,5 +1,6 @@
 #pragma once
 #include "Gui/Gui.hpp"
+#include "Gui/SaveSlot.hpp"
 /*
 this isnt so much of a menu class anymore, although thats what it started as.
 its now more of a collection of guis that can be accessed at any time during runtime.
@@ -18,6 +19,7 @@ public:
 	void Update();
 	void Render(float dt);
 	Gui* getOpenGui();
+	std::vector<SaveSlot> slots;
 
 private:
 	int openMenu;

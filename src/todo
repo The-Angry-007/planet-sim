@@ -14,8 +14,8 @@ DEVELOPMENT PLAN
 
 Week 1 - 18/3/24 - 24/3/24
 x start new project, carry over the inputHandler and GUI class
+x create menu class that allows you to load a game, start a game, quit, change options (which will be blank)
 ####YOU ARE HERE####
-- create menu class that allows you to load a game, start a game, quit, change options (which will be blank)
 - create game class that takes over when you load in, also has pause menu and settings
 Week 2-3 - 25/3/24 - 7/4/24 (v0.2)
 - Implement perlin noise - needed for height of planet surface

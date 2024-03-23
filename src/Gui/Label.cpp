@@ -10,6 +10,7 @@ Label::Label(std::string text, sf::FloatRect bounds, sf::Color col)
 	label.setFont(*defaultFont);
 	label.setString(text);
 	label.setFillColor(col);
+	origin = sf::Vector2f(0.5f, 0.5f);
 }
 Label::Label(std::string text, sf::Vector2f pos, sf::Vector2f size, sf::Color col)
 {
@@ -19,6 +20,7 @@ Label::Label(std::string text, sf::Vector2f pos, sf::Vector2f size, sf::Color co
 	label.setFont(*defaultFont);
 	label.setString(text);
 	label.setFillColor(col);
+	origin = sf::Vector2f(0.5f, 0.5f);
 }
 void Label::SetText(std::string text)
 {
@@ -38,7 +40,14 @@ void Label::Render()
 
 	GetMaxFontSize(&label, sf::Vector2f(bounds.width * width - padding.x, bounds.height * height - padding.y));
 	sf::FloatRect tBounds = label.getLocalBounds();
-	label.setOrigin((int)((tBounds.left + tBounds.width) / 2.f), (int)((tBounds.top + tBounds.height) / 2.f));
-	label.setPosition((int)((bounds.left + bounds.width / 2.f) * width), (int)((bounds.top + bounds.height / 2.f) * height));
+	label.setOrigin((int)((tBounds.left + tBounds.width) * origin.x), (int)((tBounds.top + tBounds.height) * origin.y));
+	label.setPosition((int)((bounds.left + bounds.width * origin.x) * width), (int)((bounds.top + bounds.height * origin.y) * height));
 	window->draw(label);
+}
+Label::~Label()
+{}
+
+void Label::setOrigin(sf::Vector2f origin)
+{
+	this->origin = origin;
 }

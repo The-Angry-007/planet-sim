@@ -20,6 +20,7 @@ public:
 	InputHandler();
 	std::vector<sf::Keyboard::Key> getAllKeysPressed();
 	std::string typedText;
+	sf::Vector2f scroll;
 
 private:
 	sf::Event event;

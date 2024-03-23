@@ -7,10 +7,13 @@ public:
 	void Render();
 	void SetText(std::string text);
 	void SetCol(sf::Color col);
+	~Label();
+	void setOrigin(sf::Vector2f origin);
+	sf::FloatRect bounds;
 
 private:
 	sf::Color col;
 	std::string text;
 	sf::Text label;
-	sf::FloatRect bounds;
+	sf::Vector2f origin;
 };

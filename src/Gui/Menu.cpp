@@ -1,6 +1,8 @@
 #include "Gui/ClickFuncs.hpp"
 #include "Gui/Gui.hpp"
+#include "Gui/SaveSlot.hpp"
 #include "Main.hpp"
+#include "SaveHandler.hpp"
 Menu::Menu()
 {
 	openMenu = 0;
@@ -11,6 +13,19 @@ void Menu::AddGui(Gui gui)
 }
 void Menu::OpenMenu(int menu)
 {
+	if (menu == 3)
+	{
+		slots = {};
+		std::vector<std::string> dirs = SaveHandler::listDirs(SaveHandler::workingDir);
+		for (uint i = 0; i < dirs.size(); i++)
+		{
+			slots.push_back(SaveSlot(dirs[i], sf::Vector2f(0.5f, 0.1f + 0.15f * i), sf::Vector2f(0.5f, 0.1f)));
+		}
+	}
+	else
+	{
+		slots = {};
+	}
 	openMenu = menu;
 	openedGuis.push_back(menu);
 }
@@ -20,6 +35,10 @@ void Menu::Render(float dt)
 	{
 		guis[openMenu].Render(dt);
 	}
+	for (uint i = 0; i < slots.size(); i++)
+	{
+		slots[i].Render();
+	}
 }
 void Menu::Update()
 {
@@ -27,9 +46,20 @@ void Menu::Update()
 	{
 		guis[openMenu].Update();
 	}
+	sf::Vector2f move = inp.scroll * 0.01f;
+
+	for (uint i = 0; i < slots.size(); i++)
+	{
+		slots[i].Update();
+		slots[i].Move(move);
+	}
 }
 void Menu::GoBack()
 {
+	if (openMenu == 2 || openMenu == 3)
+	{
+		SaveHandler::ResetDir();
+	}
 	openedGuis.pop_back();
 	OpenMenu(openedGuis[openedGuis.size() - 1]);
 	openedGuis.pop_back();
@@ -67,6 +97,11 @@ Menu InitMenu()
 	newGame.AddLabel(Label("Enter a name", sf::Vector2f(0.5f, 0.3f), sf::Vector2f(0.3f, 0.1f), sf::Color::Black));
 	newGame.AddButton(Button(sf::Vector2f(0.5f, 0.6f), sf::Vector2f(0.3f, 0.1f), sf::Color(80, 80, 80), "Create Save", sf::Color::Black, ClickFuncs::CreateSave));
 	m.AddGui(newGame);
+	Gui loadGame;
+	loadGame.Init();
+	loadGame.AddPanel(Panel(sf::FloatRect(0.f, 0.f, 1.f, 1.f), sf::Color(100, 100, 100)));
+	loadGame.AddButton(Button(sf::Vector2f(0.9f, 0.9f), sf::Vector2f(0.15f, 0.1f), sf::Color(50, 50, 50), "go back", sf::Color::White, ClickFuncs::GoBack));
+	m.AddGui(loadGame);
 	m.OpenMenu(0);
 	return m;
 }

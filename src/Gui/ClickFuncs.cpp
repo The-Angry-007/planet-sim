@@ -7,7 +7,7 @@ void ClickFuncs::NewGame()
 }
 void ClickFuncs::LoadGame()
 {
-	std::cout << "Load Game Clicked" << std::endl;
+	menu.OpenMenu(3);
 }
 void ClickFuncs::Options()
 {
