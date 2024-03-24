@@ -5,7 +5,7 @@
 SaveSlot::SaveSlot(std::string path, sf::Vector2f pos, sf::Vector2f size)
 {
 	this->path = path;
-	std::string dir = SaveHandler::workingDir + "/" + path + "/metadata.txt";
+	std::string dir = SaveHandler::workingDir + "\\" + path + "\\metadata.txt";
 	this->pos = pos;
 	this->size = size;
 	button = new Button(pos, size, sf::Color(50, 50, 50), "");

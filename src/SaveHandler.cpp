@@ -4,9 +4,10 @@
 #include <iostream>
 #include <sys/stat.h>
 #include <windows.h>
-std::string SaveHandler::workingDir = "saves";
+std::string SaveHandler::workingDir = "";
 void SaveHandler::CreateSave(std::string name)
 {
+	ResetDir();
 	if (name == "")
 	{
 		name = "unnamed";
@@ -16,7 +17,7 @@ void SaveHandler::CreateSave(std::string name)
 	while (true)
 	{
 
-		path = "saves/" + name;
+		path = workingDir + "\\" + name;
 		if (index != 0)
 		{
 			path += (" " + std::to_string(index));
@@ -47,7 +48,7 @@ void SaveHandler::CreateSave(std::string name)
 
 	//now that the seconds since 1970 and the date have been obtained, they can be written to the metadata file.
 	//also, set the time played to 0 seconds
-	std::ofstream fs(workingDir + "/metadata.txt");
+	std::ofstream fs(workingDir + "\\metadata.txt");
 	fs << date << std::endl
 	   << seconds << std::endl
 	   << "0";
@@ -69,14 +70,14 @@ bool SaveHandler::createDir(std::string& path)
 
 void SaveHandler::UpdateModified()
 {
-	std::string path = workingDir + "/metadata.txt";
+	std::string path = workingDir + "\\metadata.txt";
 	auto lines = getLines(path);
 	lines[1] = std::to_string(getSeconds());
 	WriteLines(lines, path);
 }
 void SaveHandler::UpdateTimePlayed(int seconds)
 {
-	std::string path = workingDir + "/metadata.txt";
+	std::string path = workingDir + "\\metadata.txt";
 	auto lines = getLines(path);
 	int played = std::stoi(lines[2]);
 	played += seconds;
@@ -146,5 +147,16 @@ std::vector<std::string> SaveHandler::listDirs(std::string& path)
 
 void SaveHandler::ResetDir()
 {
-	workingDir = "saves";
+	std::string appdata = getenv("APPDATA");
+	workingDir = appdata + "\\planet-sim";
+	if (!dirExists(workingDir))
+	{
+		createDir(workingDir);
+	}
+	workingDir += "\\saves";
+	if (!dirExists(workingDir))
+	{
+
+		createDir(workingDir);
+	}
 }

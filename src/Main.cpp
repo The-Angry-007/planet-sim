@@ -3,6 +3,7 @@
 #include "Gui/Menu.hpp"
 #include "PCH.hpp"
 #include "Platform/Platform.hpp"
+#include "SaveHandler.hpp"
 #include "inputHandler.hpp"
 #ifndef M_PI
 	#define M_PI 3.14159265358979323846
@@ -19,6 +20,7 @@ int width, height;
 Menu menu;
 int main()
 {
+	SaveHandler::ResetDir();
 	util::Platform platform;
 	// in Windows at least, this must be called before creating the window
 	float screenScalingFactor = platform.getScreenScalingFactor(window->getSystemHandle());
