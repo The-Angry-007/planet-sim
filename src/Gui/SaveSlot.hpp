@@ -16,4 +16,5 @@ public:
 	void Render();
 	void Update();
 	void Move(sf::Vector2f amt);
+	void onClick();
 };

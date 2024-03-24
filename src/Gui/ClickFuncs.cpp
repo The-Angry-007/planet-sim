@@ -24,4 +24,16 @@ void ClickFuncs::GoBack()
 void ClickFuncs::CreateSave()
 {
 	SaveHandler::CreateSave(menu.getOpenGui()->inpFields[0].text);
+	menu.OpenMenu(4);
+	game = new Game();
+}
+
+void ClickFuncs::ResumeGame()
+{
+	game->TogglePaused();
+}
+
+void ClickFuncs::QuitToTitle()
+{
+	menu.OpenMenu(0);
 }

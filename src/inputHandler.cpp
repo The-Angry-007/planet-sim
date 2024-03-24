@@ -103,26 +103,56 @@ int InputHandler::getIndex(std::vector<sf::Keyboard::Key> keys, sf::Keyboard::Ke
 }
 void InputHandler::RemoveKeyPressed(sf::Keyboard::Key key)
 {
-	keysPressed.erase(keysPressed.begin() + getIndex(keysPressed, key));
+	int i = getIndex(keysPressed, key);
+	if (i == -1)
+	{
+		return;
+	}
+	keysPressed.erase(keysPressed.begin() + i);
 }
 void InputHandler::RemoveKeyDown(sf::Keyboard::Key key)
 {
+	int i = getIndex(keysDown, key);
+	if (i == -1)
+	{
+		return;
+	}
 	keysDown.erase(keysDown.begin() + getIndex(keysDown, key));
 }
 void InputHandler::RemoveKeyReleased(sf::Keyboard::Key key)
 {
+	int i = getIndex(keysReleased, key);
+	if (i == -1)
+	{
+		return;
+	}
 	keysReleased.erase(keysReleased.begin() + getIndex(keysReleased, key));
 }
 void InputHandler::RemoveMouseButtonDown(sf::Mouse::Button button)
 {
+	int i = getIndex(mouseButtonsDown, button);
+	if (i == -1)
+	{
+		return;
+	}
 	mouseButtonsDown.erase(mouseButtonsDown.begin() + getIndex(mouseButtonsDown, button));
 }
 void InputHandler::RemoveMouseButtonReleased(sf::Mouse::Button button)
 {
+	int i = getIndex(mouseButtonsReleased, button);
+	if (i == -1)
+	{
+		return;
+	}
 	mouseButtonsReleased.erase(mouseButtonsReleased.begin() + getIndex(mouseButtonsReleased, button));
 }
 void InputHandler::RemoveMouseButtonPressed(sf::Mouse::Button button)
 {
+	int i = getIndex(mouseButtonsPressed, button);
+	if (i == -1)
+	{
+		return;
+	}
 	mouseButtonsPressed.erase(mouseButtonsPressed.begin() + getIndex(mouseButtonsPressed, button));
 }
 int InputHandler::getIndex(std::vector<sf::Mouse::Button> buttons, sf::Mouse::Button button)

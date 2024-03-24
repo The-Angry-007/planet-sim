@@ -1,4 +1,5 @@
 #pragma once
+#include "Game.hpp"
 #include "Gui/Gui.hpp"
 #include "inputHandler.hpp"
 extern sf::RenderWindow* window;
@@ -8,3 +9,4 @@ extern InputHandler inp;
 extern int width, height;
 extern sf::Font* defaultFont;
 extern Menu menu;
+extern Game* game;

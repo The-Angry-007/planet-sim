@@ -46,12 +46,16 @@ void Menu::Update()
 	{
 		guis[openMenu].Update();
 	}
-	sf::Vector2f move = inp.scroll * 0.01f;
-
-	for (uint i = 0; i < slots.size(); i++)
+	if (slots.size() != 0)
 	{
-		slots[i].Update();
-		slots[i].Move(move);
+		sf::Vector2f move = inp.scroll * 0.01f;
+
+		for (uint i = 0; i < slots.size(); i++)
+		{
+			slots[i].Move(move);
+
+			slots[i].Update();
+		}
 	}
 }
 void Menu::GoBack()
@@ -102,6 +106,17 @@ Menu InitMenu()
 	loadGame.AddPanel(Panel(sf::FloatRect(0.f, 0.f, 1.f, 1.f), sf::Color(100, 100, 100)));
 	loadGame.AddButton(Button(sf::Vector2f(0.9f, 0.9f), sf::Vector2f(0.15f, 0.1f), sf::Color(50, 50, 50), "go back", sf::Color::White, ClickFuncs::GoBack));
 	m.AddGui(loadGame);
+	Gui mainGame;
+	mainGame.Init();
+	m.AddGui(mainGame);
+	Gui paused;
+	paused.Init();
+	paused.AddPanel(Panel(sf::FloatRect(0.f, 0.f, 1.f, 1.f), sf::Color(0, 0, 0, 100)));
+	paused.AddLabel(Label("Paused", sf::Vector2f(0.5f, 0.2f), sf::Vector2f(0.8f, 0.1f), sf::Color::White));
+	paused.AddButton(Button(sf::Vector2f(0.5f, 0.4f), sf::Vector2f(0.5f, 0.1f), sf::Color(100, 100, 100), "Resume Game", sf::Color::Black, ClickFuncs::ResumeGame));
+	paused.AddButton(Button(sf::Vector2f(0.5f, 0.55f), sf::Vector2f(0.5f, 0.1f), sf::Color(100, 100, 100), "Options", sf::Color::Black, ClickFuncs::Options));
+	paused.AddButton(Button(sf::Vector2f(0.5f, 0.7f), sf::Vector2f(0.5f, 0.1f), sf::Color(100, 100, 100), "Save and Quit", sf::Color::Black, ClickFuncs::QuitToTitle));
+	m.AddGui(paused);
 	m.OpenMenu(0);
 	return m;
 }

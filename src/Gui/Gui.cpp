@@ -40,12 +40,13 @@ void Gui::Update()
 		if (panels[i].MouseOver())
 		{
 			mouseBlockedByGui = true;
+			inp.RemoveMouseButtonPressed(sf::Mouse::Button::Left);
+			inp.RemoveMouseButtonDown(sf::Mouse::Button::Left);
 		}
 	}
 }
 void Gui::Render(float dt)
 {
-	this->RenderFps(dt);
 	for (uint i { 0 }; i < panels.size(); i++)
 	{
 		panels[i].Render();
@@ -62,6 +63,7 @@ void Gui::Render(float dt)
 	{
 		inpFields[i].Render();
 	}
+	this->RenderFps(dt);
 }
 void Gui::RenderFps(float dt)
 {

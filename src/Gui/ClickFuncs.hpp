@@ -7,4 +7,6 @@ void Options();
 void Quit();
 void GoBack();
 void CreateSave();
+void ResumeGame();
+void QuitToTitle();
 }

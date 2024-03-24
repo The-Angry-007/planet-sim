@@ -48,8 +48,14 @@ void SaveSlot::Update()
 {
 	if (button->clicked())
 	{
-		SaveHandler::workingDir += "/" + path;
+		onClick();
 	}
+}
+void SaveSlot::onClick()
+{
+	SaveHandler::workingDir += "/" + path;
+	menu.OpenMenu(4);
+	game = new Game();
 }
 SaveSlot::~SaveSlot()
 {
