@@ -19,7 +19,7 @@ sf::Font* defaultFont = new sf::Font();
 int width, height;
 Menu menu;
 Game* game = nullptr;
-bool debug = true;
+bool debug = false;
 int main()
 {
 	SaveHandler::ResetDir();

@@ -7,6 +7,7 @@ Game::Game()
 	this->savePath = SaveHandler::workingDir;
 	std::cout << "initialising game" << std::endl;
 	std::cout << "save path is " << savePath << std::endl;
+	paused = false;
 }
 void Game::Update(double dt)
 {
