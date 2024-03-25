@@ -42,8 +42,8 @@ Game::Game()
 
 		b2FixtureDef blockFixtureDef;
 		blockFixtureDef.shape = &blockShape;
-		blockFixtureDef.density = 1.0f;		// Set density to make it dynamic
-		blockFixtureDef.friction = 0.3f;	// Add some friction
+		blockFixtureDef.density = 10.0f;	// Set density to make it dynamic
+		blockFixtureDef.friction = 1.0f;	// Add some friction
 		blockFixtureDef.restitution = 0.1f; // Add a little bounce
 
 		blockBody->CreateFixture(&blockFixtureDef);
@@ -107,7 +107,7 @@ sf::RectangleShape box2dBodyToSFML(b2Body* body, const sf::Color& color)
 	rectangle.setSize(sf::Vector2f(size.x * 2.0f * SCALE, size.y * 2.0f * SCALE)); // Box2D's size is half-width and half-height
 	rectangle.setOrigin(size.x * SCALE, size.y * SCALE);						   // Set origin to center for proper rotation
 	rectangle.setPosition(SCALE * body->GetPosition().x + width / 2, -SCALE * body->GetPosition().y + height / 2);
-	rectangle.setRotation(body->GetAngle() * 180.0f / b2_pi); // Convert radians to degrees
+	rectangle.setRotation(-body->GetAngle() * 180.0f / b2_pi); // Convert radians to degrees
 	rectangle.setFillColor(color);
 	window->draw(rectangle);
 	return rectangle;
