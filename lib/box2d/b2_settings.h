@@ -23,8 +23,8 @@
 #ifndef B2_SETTINGS_H
 #define B2_SETTINGS_H
 
-#include "b2_types.h"
 #include "b2_api.h"
+#include "b2_types.h"
 
 /// @file
 /// Settings that can be overriden for your application
@@ -33,24 +33,24 @@
 /// Define this macro in your build if you want to override settings
 #ifdef B2_USER_SETTINGS
 
-/// This is a user file that includes custom definitions of the macros, structs, and functions
-/// defined below.
-#include "b2_user_settings.h"
+	/// This is a user file that includes custom definitions of the macros, structs, and functions
+	/// defined below.
+	#include "b2_user_settings.h"
 
 #else
 
-#include <stdarg.h>
-#include <stdint.h>
+	#include <stdarg.h>
+	#include <stdint.h>
 
-// Tunable Constants
+	// Tunable Constants
 
-/// You can use this to change the length scale used by your game.
-/// For example for inches you could use 39.4.
-#define b2_lengthUnitsPerMeter 1.0f
+	/// You can use this to change the length scale used by your game.
+	/// For example for inches you could use 39.4.
+	#define b2_lengthUnitsPerMeter 1.0f
 
-/// The maximum number of vertices on a convex polygon. You cannot increase
-/// this too much because b2BlockAllocator has a maximum object size.
-#define b2_maxPolygonVertices	8
+	/// The maximum number of vertices on a convex polygon. You cannot increase
+	/// this too much because b2BlockAllocator has a maximum object size.
+	#define b2_maxPolygonVertices 8
 
 // User data
 
@@ -109,7 +109,7 @@ inline void b2Free(void* mem)
 }
 
 /// Default logging function
-B2_API void b2Log_Default(const char* string, va_list args);
+B2_API void b2Log_Default(const char* string, va_list args) __attribute__((format(printf, 1, 0)));
 
 /// Implement this to use your own logging.
 inline void b2Log(const char* string, ...)

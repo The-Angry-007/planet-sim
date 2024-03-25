@@ -215,7 +215,7 @@ _Q := $(if $(_CLEAN),@)
 # Compiler & flags
 CC?=g++
 RC?=windres.exe
-CFLAGS?=-O2 -Wall -fdiagnostics-color=always
+CFLAGS?=-O2 -Wno-suggest-attribute=format -fdiagnostics-color=always
 
 CFLAGS_DEPS = -MT $@ -MMD -MP -MF $(DEP_DIR)/$*.Td
 CFLAGS_DEPS_T = -MT $@ -MMD -MP -MF $(DEP_DIR)/.$(TEST_DIR)/$*.Td
@@ -275,7 +275,7 @@ color_blue := \033[0;34m
 color_purple := \033[0;35m
 
 define compile_with
-	$(if $(_CLEAN),@printf '   $(color_blue)$($(2):$(OBJ_DIR)/%=%)\n',@printf '$(color_blue)')
+$(if $(_CLEAN),@printf '   $(color_blue)$($(2):$(OBJ_DIR)/%=%)\n',@printf '$(color_blue)')
 	$(_Q)$(3) && $(4)
 endef
 

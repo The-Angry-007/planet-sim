@@ -23,11 +23,11 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include "box2d/b2_settings.h"
-#include <stdio.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
 
-b2Version b2_version = {2, 4, 1};
+b2Version b2_version = { 2, 4, 1 };
 
 // Memory allocators. Modify these to use your own allocator.
 void* b2Alloc_Default(int32 size)

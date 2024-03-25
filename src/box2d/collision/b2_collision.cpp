@@ -24,8 +24,8 @@
 #include "box2d/b2_distance.h"
 
 void b2WorldManifold::Initialize(const b2Manifold* manifold,
-						  const b2Transform& xfA, float radiusA,
-						  const b2Transform& xfB, float radiusB)
+	const b2Transform& xfA, float radiusA,
+	const b2Transform& xfB, float radiusB)
 {
 	if (manifold->pointCount == 0)
 	{
@@ -34,8 +34,7 @@ void b2WorldManifold::Initialize(const b2Manifold* manifold,
 
 	switch (manifold->type)
 	{
-	case b2Manifold::e_circles:
-		{
+		case b2Manifold::e_circles: {
 			normal.Set(1.0f, 0.0f);
 			b2Vec2 pointA = b2Mul(xfA, manifold->localPoint);
 			b2Vec2 pointB = b2Mul(xfB, manifold->points[0].localPoint);
@@ -52,11 +51,10 @@ void b2WorldManifold::Initialize(const b2Manifold* manifold,
 		}
 		break;
 
-	case b2Manifold::e_faceA:
-		{
+		case b2Manifold::e_faceA: {
 			normal = b2Mul(xfA.q, manifold->localNormal);
 			b2Vec2 planePoint = b2Mul(xfA, manifold->localPoint);
-			
+
 			for (int32 i = 0; i < manifold->pointCount; ++i)
 			{
 				b2Vec2 clipPoint = b2Mul(xfB, manifold->points[i].localPoint);
@@ -68,8 +66,7 @@ void b2WorldManifold::Initialize(const b2Manifold* manifold,
 		}
 		break;
 
-	case b2Manifold::e_faceB:
-		{
+		case b2Manifold::e_faceB: {
 			normal = b2Mul(xfB.q, manifold->localNormal);
 			b2Vec2 planePoint = b2Mul(xfB, manifold->localPoint);
 
@@ -86,11 +83,13 @@ void b2WorldManifold::Initialize(const b2Manifold* manifold,
 			normal = -normal;
 		}
 		break;
+		default:
+			break;
 	}
 }
 
 void b2GetPointStates(b2PointState state1[b2_maxManifoldPoints], b2PointState state2[b2_maxManifoldPoints],
-					  const b2Manifold* manifold1, const b2Manifold* manifold2)
+	const b2Manifold* manifold1, const b2Manifold* manifold2)
 {
 	for (int32 i = 0; i < b2_maxManifoldPoints; ++i)
 	{
@@ -203,7 +202,7 @@ bool b2AABB::RayCast(b2RayCastOutput* output, const b2RayCastInput& input) const
 
 // Sutherland-Hodgman clipping.
 int32 b2ClipSegmentToLine(b2ClipVertex vOut[2], const b2ClipVertex vIn[2],
-						const b2Vec2& normal, float offset, int32 vertexIndexA)
+	const b2Vec2& normal, float offset, int32 vertexIndexA)
 {
 	// Start with no output points
 	int32 count = 0;
@@ -213,8 +212,10 @@ int32 b2ClipSegmentToLine(b2ClipVertex vOut[2], const b2ClipVertex vIn[2],
 	float distance1 = b2Dot(normal, vIn[1].v) - offset;
 
 	// If the points are behind the plane
-	if (distance0 <= 0.0f) vOut[count++] = vIn[0];
-	if (distance1 <= 0.0f) vOut[count++] = vIn[1];
+	if (distance0 <= 0.0f)
+		vOut[count++] = vIn[0];
+	if (distance1 <= 0.0f)
+		vOut[count++] = vIn[1];
 
 	// If the points are on different sides of the plane
 	if (distance0 * distance1 < 0.0f)
@@ -236,9 +237,9 @@ int32 b2ClipSegmentToLine(b2ClipVertex vOut[2], const b2ClipVertex vIn[2],
 	return count;
 }
 
-bool b2TestOverlap(	const b2Shape* shapeA, int32 indexA,
-					const b2Shape* shapeB, int32 indexB,
-					const b2Transform& xfA, const b2Transform& xfB)
+bool b2TestOverlap(const b2Shape* shapeA, int32 indexA,
+	const b2Shape* shapeB, int32 indexB,
+	const b2Transform& xfA, const b2Transform& xfB)
 {
 	b2DistanceInput input;
 	input.proxyA.Set(shapeA, indexA);
@@ -273,7 +274,7 @@ static b2Hull b2RecurseHull(b2Vec2 p1, b2Vec2 p2, b2Vec2* ps, int32 count)
 	e.Normalize();
 
 	// discard points left of e and find point furthest to the right of e
-	b2Vec2 rightPoints[b2_maxPolygonVertices]{};
+	b2Vec2 rightPoints[b2_maxPolygonVertices] {};
 	int32 rightCount = 0;
 
 	int32 bestIndex = 0;
@@ -346,7 +347,7 @@ b2Hull b2ComputeHull(const b2Vec2* points, int32 count)
 
 	count = b2Min(count, b2_maxPolygonVertices);
 
-	b2AABB aabb = { {b2_maxFloat, b2_maxFloat}, {-b2_maxFloat, -b2_maxFloat} };
+	b2AABB aabb = { { b2_maxFloat, b2_maxFloat }, { -b2_maxFloat, -b2_maxFloat } };
 
 	// Perform aggressive point welding. First point always remains.
 	// Also compute the bounding box for later.
@@ -492,7 +493,7 @@ b2Hull b2ComputeHull(const b2Vec2* points, int32 count)
 			b2Vec2 e = p3 - p1;
 			e.Normalize();
 
-			b2Vec2 v = p2 - p1;
+			//b2Vec2 v = p2 - p1;
 			float distance = b2Cross(p2 - p1, e);
 			if (distance <= 2.0f * b2_linearSlop)
 			{
@@ -567,7 +568,7 @@ bool b2ValidateHull(const b2Hull& hull)
 		b2Vec2 e = p3 - p1;
 		e.Normalize();
 
-		b2Vec2 v = p2 - p1;
+		//b2Vec2 v = p2 - p1;
 		float distance = b2Cross(p2 - p1, e);
 		if (distance <= b2_linearSlop)
 		{

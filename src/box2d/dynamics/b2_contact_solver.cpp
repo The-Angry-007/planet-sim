@@ -113,7 +113,7 @@ b2ContactSolver::b2ContactSolver(b2ContactSolverDef* def)
 		{
 			b2ManifoldPoint* cp = manifold->points + j;
 			b2VelocityConstraintPoint* vcp = vc->points + j;
-	
+
 			if (m_step.warmStarting)
 			{
 				vcp->normalImpulse = m_step.dtRatio * cp->normalImpulse;
@@ -209,7 +209,7 @@ void b2ContactSolver::InitializeVelocityConstraints()
 
 			float kTangent = mA + mB + iA * rtA * rtA + iB * rtB * rtB;
 
-			vcp->tangentMass = kTangent > 0.0f ? 1.0f /  kTangent : 0.0f;
+			vcp->tangentMass = kTangent > 0.0f ? 1.0f / kTangent : 0.0f;
 
 			// Setup a velocity bias for restitution.
 			vcp->velocityBias = 0.0f;
@@ -390,17 +390,17 @@ void b2ContactSolver::SolveVelocityConstraints()
 			// implies that we must have in any solution either vn_i = 0 or x_i = 0. So for the 2D contact problem the cases
 			// vn1 = 0 and vn2 = 0, x1 = 0 and x2 = 0, x1 = 0 and vn2 = 0, x2 = 0 and vn1 = 0 need to be tested. The first valid
 			// solution that satisfies the problem is chosen.
-			// 
+			//
 			// In order to account of the accumulated impulse 'a' (because of the iterative nature of the solver which only requires
 			// that the accumulated impulse is clamped and not the incremental impulse) we change the impulse variable (x_i).
 			//
 			// Substitute:
-			// 
+			//
 			// x = a + d
-			// 
+			//
 			// a := old total impulse
 			// x := new total impulse
-			// d := incremental impulse 
+			// d := incremental impulse
 			//
 			// For the current iteration we extend the formula for the incremental impulse
 			// to compute the new total impulse:
@@ -446,7 +446,7 @@ void b2ContactSolver::SolveVelocityConstraints()
 				//
 				// x = - inv(A) * b'
 				//
-				b2Vec2 x = - b2Mul(vc->normalMass, b);
+				b2Vec2 x = -b2Mul(vc->normalMass, b);
 
 				if (x.x >= 0.0f && x.y >= 0.0f)
 				{
@@ -484,10 +484,10 @@ void b2ContactSolver::SolveVelocityConstraints()
 				//
 				// Case 2: vn1 = 0 and x2 = 0
 				//
-				//   0 = a11 * x1 + a12 * 0 + b1' 
+				//   0 = a11 * x1 + a12 * 0 + b1'
 				// vn2 = a21 * x1 + a22 * 0 + b2'
 				//
-				x.x = - cp1->normalMass * b.x;
+				x.x = -cp1->normalMass * b.x;
 				x.y = 0.0f;
 				vn1 = 0.0f;
 				vn2 = vc->K.ex.y * x.x + b.y;
@@ -521,15 +521,14 @@ void b2ContactSolver::SolveVelocityConstraints()
 					break;
 				}
 
-
 				//
 				// Case 3: vn2 = 0 and x1 = 0
 				//
-				// vn1 = a11 * 0 + a12 * x2 + b1' 
+				// vn1 = a11 * 0 + a12 * x2 + b1'
 				//   0 = a21 * 0 + a22 * x2 + b2'
 				//
 				x.x = 0.0f;
-				x.y = - cp2->normalMass * b.y;
+				x.y = -cp2->normalMass * b.y;
 				vn1 = vc->K.ey.x * x.y + b.x;
 				vn2 = 0.0f;
 
@@ -565,7 +564,7 @@ void b2ContactSolver::SolveVelocityConstraints()
 
 				//
 				// Case 4: x1 = 0 and x2 = 0
-				// 
+				//
 				// vn1 = b1
 				// vn2 = b2;
 				x.x = 0.0f;
@@ -573,7 +572,7 @@ void b2ContactSolver::SolveVelocityConstraints()
 				vn1 = b.x;
 				vn2 = b.y;
 
-				if (vn1 >= 0.0f && vn2 >= 0.0f )
+				if (vn1 >= 0.0f && vn2 >= 0.0f)
 				{
 					// Resubstitute for the incremental impulse
 					b2Vec2 d = x - a;
@@ -629,8 +628,7 @@ struct b2PositionSolverManifold
 
 		switch (pc->type)
 		{
-		case b2Manifold::e_circles:
-			{
+			case b2Manifold::e_circles: {
 				b2Vec2 pointA = b2Mul(xfA, pc->localPoint);
 				b2Vec2 pointB = b2Mul(xfB, pc->localPoints[0]);
 				normal = pointB - pointA;
@@ -640,8 +638,7 @@ struct b2PositionSolverManifold
 			}
 			break;
 
-		case b2Manifold::e_faceA:
-			{
+			case b2Manifold::e_faceA: {
 				normal = b2Mul(xfA.q, pc->localNormal);
 				b2Vec2 planePoint = b2Mul(xfA, pc->localPoint);
 
@@ -651,8 +648,7 @@ struct b2PositionSolverManifold
 			}
 			break;
 
-		case b2Manifold::e_faceB:
-			{
+			case b2Manifold::e_faceB: {
 				normal = b2Mul(xfB.q, pc->localNormal);
 				b2Vec2 planePoint = b2Mul(xfB, pc->localPoint);
 
@@ -728,7 +724,7 @@ bool b2ContactSolver::SolvePositionConstraints()
 			float K = mA + mB + iA * rnA * rnA + iB * rnB * rnB;
 
 			// Compute normal impulse
-			float impulse = K > 0.0f ? - C / K : 0.0f;
+			float impulse = K > 0.0f ? -C / K : 0.0f;
 
 			b2Vec2 P = impulse * normal;
 
@@ -819,7 +815,7 @@ bool b2ContactSolver::SolveTOIPositionConstraints(int32 toiIndexA, int32 toiInde
 			float K = mA + mB + iA * rnA * rnA + iB * rnB * rnB;
 
 			// Compute normal impulse
-			float impulse = K > 0.0f ? - C / K : 0.0f;
+			float impulse = K > 0.0f ? -C / K : 0.0f;
 
 			b2Vec2 P = impulse * normal;
 
