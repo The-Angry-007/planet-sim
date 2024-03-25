@@ -9,7 +9,7 @@ Game::Game()
 	std::cout << "initialising game" << std::endl;
 	std::cout << "save path is " << savePath << std::endl;
 	paused = false;
-	b2Vec2 gravity(0.f, -9.81f);
+	b2Vec2 gravity(0.f, 0.f);
 	world = new b2World(gravity);
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
@@ -37,9 +37,16 @@ void Game::Update(double dt)
 			return;
 		}
 	}
-	// if (inp.mbDown(sf::Mouse::Button::Left)){
-
-	// }
+	if (inp.mbDown(sf::Mouse::Button::Left))
+	{
+		float power = 300.f;
+		b2Vec2 pos((inp.mousePos.x - width / 2) / 10.f, (inp.mousePos.y - height / 2) / -10.f);
+		b2Vec2 offset = pos - body->GetPosition();
+		float distance = offset.LengthSquared();
+		offset.Normalize();
+		b2Vec2 repulsion = -power / distance * offset;
+		body->ApplyForceToCenter(repulsion, true);
+	}
 	//update box2d world
 	world->Step(dt, 6, 2);
 }
