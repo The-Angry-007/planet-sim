@@ -9,22 +9,45 @@ Game::Game()
 	std::cout << "initialising game" << std::endl;
 	std::cout << "save path is " << savePath << std::endl;
 	paused = false;
-	b2Vec2 gravity(0.f, 0.f);
+	b2Vec2 gravity(0.f, -9.81f);
 	world = new b2World(gravity);
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(0.0f, 0.0f);
-	body = world->CreateBody(&bodyDef);
+	// Define the ground body
+	b2BodyDef groundBodyDef;
+	groundBodyDef.position.Set(0.0f, -10.0f); // Position it (assuming 0,0 is the center and y is up)
 
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(1.0f, 1.0f);
+	// Call the world object to create the ground body
+	groundBody = world->CreateBody(&groundBodyDef);
 
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.3f;
+	// Define and add the ground shape
+	b2PolygonShape groundBox;
+	groundBox.SetAsBox(50.0f, 10.0f); // Set as a box of 50 units wide and 10 units tall
 
-	body->CreateFixture(&fixtureDef);
+	// Create a fixture with the shape on the body
+	groundBody->CreateFixture(&groundBox, 0.0f); // Density is 0.0f because it's static
+
+	float blockWidth = 1.0f;  // Width of each block
+	float blockHeight = 1.0f; // Height of each block
+	float blockSpacing = 1.f; // Small vertical spacing between blocks to prevent them from sticking
+
+	for (int i = 0; i < 10; ++i)
+	{
+		b2BodyDef blockBodyDef;
+		blockBodyDef.type = b2_dynamicBody;
+		blockBodyDef.position.Set((rand() / (float)RAND_MAX) * 2.f - 1.f, i * (blockHeight + blockSpacing)); // Stack blocks
+
+		b2Body* blockBody = world->CreateBody(&blockBodyDef);
+		blocks.push_back(blockBody);
+		b2PolygonShape blockShape;
+		blockShape.SetAsBox(blockWidth / 2.0f, blockHeight / 2.0f); // Half width and half height
+
+		b2FixtureDef blockFixtureDef;
+		blockFixtureDef.shape = &blockShape;
+		blockFixtureDef.density = 1.0f;		// Set density to make it dynamic
+		blockFixtureDef.friction = 0.3f;	// Add some friction
+		blockFixtureDef.restitution = 0.1f; // Add a little bounce
+
+		blockBody->CreateFixture(&blockFixtureDef);
+	}
 }
 void Game::Update(double dt)
 {
@@ -36,16 +59,6 @@ void Game::Update(double dt)
 		{
 			return;
 		}
-	}
-	if (inp.mbDown(sf::Mouse::Button::Left))
-	{
-		float power = 300.f;
-		b2Vec2 pos((inp.mousePos.x - width / 2) / 10.f, (inp.mousePos.y - height / 2) / -10.f);
-		b2Vec2 offset = pos - body->GetPosition();
-		float distance = offset.LengthSquared();
-		offset.Normalize();
-		b2Vec2 repulsion = -power / distance * offset;
-		body->ApplyForceToCenter(repulsion, true);
 	}
 	//update box2d world
 	world->Step(dt, 6, 2);
@@ -65,8 +78,11 @@ void Game::TogglePaused()
 }
 void Game::Render()
 {
-	sf::RectangleShape rect = box2dBodyToSFML(body, sf::Color::Red);
-	window->draw(rect);
+	box2dBodyToSFML(groundBody, sf::Color::White);
+	for (int i = 0; i < blocks.size(); i++)
+	{
+		box2dBodyToSFML(blocks[i], sf::Color::Red);
+	}
 }
 Game::~Game()
 {
@@ -74,7 +90,7 @@ Game::~Game()
 
 sf::RectangleShape box2dBodyToSFML(b2Body* body, const sf::Color& color)
 {
-	float SCALE = 10.f;
+	float SCALE = 20.f;
 	// Assuming the body has a polygon shape fixture
 	b2Fixture* fixture = body->GetFixtureList();
 	if (!fixture)
@@ -93,6 +109,6 @@ sf::RectangleShape box2dBodyToSFML(b2Body* body, const sf::Color& color)
 	rectangle.setPosition(SCALE * body->GetPosition().x + width / 2, -SCALE * body->GetPosition().y + height / 2);
 	rectangle.setRotation(body->GetAngle() * 180.0f / b2_pi); // Convert radians to degrees
 	rectangle.setFillColor(color);
-
+	window->draw(rectangle);
 	return rectangle;
 }

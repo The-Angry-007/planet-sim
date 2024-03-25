@@ -9,7 +9,8 @@ public:
 	void Render();
 	void TogglePaused();
 	b2World* world;
-	b2Body* body;
+	b2Body* groundBody;
+	std::vector<b2Body*> blocks;
 	Game();
 	~Game();
 };
