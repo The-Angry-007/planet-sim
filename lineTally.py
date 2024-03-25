@@ -3,7 +3,8 @@ import os
 directory = os.getcwd() + "\\src"
 total_lines = 0
 for root, dirs, files in os.walk(directory):
-	if "Platform" in root or "Utility" in root:
+	#ignore any of the code i didnt write, not trying to steal credit
+	if "Platform" in root or "Utility" in root or "box2d" in root:
 		continue
 	for file in files:
 		file_path = os.path.join(root,file)
