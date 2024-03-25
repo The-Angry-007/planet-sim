@@ -51,14 +51,13 @@ Game::Game()
 }
 void Game::Update(double dt)
 {
-	dt = dt;
 	if (inp.keyPressed(sf::Keyboard::Key::Escape))
 	{
 		TogglePaused();
-		if (paused)
-		{
-			return;
-		}
+	}
+	if (paused)
+	{
+		return;
 	}
 	//update box2d world
 	world->Step(dt, 6, 2);
