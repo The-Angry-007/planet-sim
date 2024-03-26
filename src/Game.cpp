@@ -25,9 +25,9 @@ Game::Game()
 	// Create a fixture with the shape on the body
 	groundBody->CreateFixture(&groundBox, 0.0f); // Density is 0.0f because it's static
 
-	float blockWidth = 1.0f;  // Width of each block
-	float blockHeight = 1.0f; // Height of each block
-	float blockSpacing = 1.f; // Small vertical spacing between blocks to prevent them from sticking
+	float blockWidth = 1.0f;	// Width of each block
+	float blockHeight = 1.0f;	// Height of each block
+	float blockSpacing = 0.01f; // Small vertical spacing between blocks to prevent them from sticking
 
 	for (int i = 0; i < 10; ++i)
 	{
@@ -42,12 +42,16 @@ Game::Game()
 
 		b2FixtureDef blockFixtureDef;
 		blockFixtureDef.shape = &blockShape;
-		blockFixtureDef.density = 10.0f;	// Set density to make it dynamic
-		blockFixtureDef.friction = 1.0f;	// Add some friction
-		blockFixtureDef.restitution = 0.1f; // Add a little bounce
+		blockFixtureDef.density = 10.0f;   // Set density to make it dynamic
+		blockFixtureDef.friction = 0.5f;   // Add some friction
+		blockFixtureDef.restitution = 0.f; // Add a little bounce
 
 		blockBody->CreateFixture(&blockFixtureDef);
 	}
+	b2WeldJointDef weld;
+	weld.Initialize(blocks[0], blocks[1], blocks[0]->GetPosition() + b2Vec2(0.f, 0.5f));
+	weld.collideConnected = false;
+	world->CreateJoint(&weld);
 }
 void Game::Update(double dt)
 {
@@ -59,6 +63,20 @@ void Game::Update(double dt)
 	{
 		return;
 	}
+	if (inp.keyDown(sf::Keyboard::Space))
+	{
+		b2Vec2 centre = blocks[0]->GetPosition();
+		float angle = blocks[0]->GetAngle();
+		b2Vec2 offset(0.f, -0.5f);
+		b2Vec2 worldOffset;
+		worldOffset.x = offset.x * cos(angle) - offset.y * sin(angle);
+		worldOffset.y = offset.x * sin(angle) + offset.y * cos(angle);
+		b2Vec2 point = worldOffset + centre;
+		float mag = 5000.f;
+		b2Vec2 force(mag * -sin(angle), mag * cos(angle));
+		blocks[0]->ApplyForce(force, point, true);
+	}
+
 	//update box2d world
 	world->Step(dt, 6, 2);
 }
