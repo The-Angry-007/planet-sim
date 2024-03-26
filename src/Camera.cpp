@@ -5,7 +5,7 @@ Camera::Camera(sf::Vector2f pos, float zoom)
 	this->pos = pos;
 	this->zoom = zoom;
 	view = sf::View(toFloatRect());
-	zoomRate = 0.05f;
+	zoomRate = 1.f;
 	windowSize = sf::Vector2u(0, 0);
 }
 void Camera::Update()

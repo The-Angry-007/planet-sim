@@ -26,6 +26,7 @@ void ClickFuncs::CreateSave()
 	SaveHandler::CreateSave(menu.getOpenGui()->inpFields[0].text);
 	menu.OpenMenu(4);
 	game = new Game();
+	game->Init();
 }
 
 void ClickFuncs::ResumeGame()

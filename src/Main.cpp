@@ -20,7 +20,7 @@ int width, height;
 Menu menu;
 Game* game = nullptr;
 bool debug = true;
-Camera camera(sf::Vector2f(0.f, 0.f), 1.f);
+Camera camera(sf::Vector2f(0.f, 0.f), 20.f);
 int main()
 {
 	SaveHandler::ResetDir();

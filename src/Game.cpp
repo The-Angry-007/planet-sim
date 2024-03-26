@@ -5,6 +5,9 @@
 #include "inputHandler.hpp"
 Game::Game()
 {
+}
+void Game::Init()
+{
 	this->savePath = SaveHandler::workingDir;
 	std::cout << "initialising game" << std::endl;
 	std::cout << "save path is " << savePath << std::endl;
@@ -52,6 +55,7 @@ Game::Game()
 	weld.Initialize(blocks[0], blocks[1], blocks[0]->GetPosition() + b2Vec2(0.f, 0.5f));
 	weld.collideConnected = false;
 	world->CreateJoint(&weld);
+	thruster = new Thruster(0, b2Vec2(0.f, 10.f));
 }
 void Game::Update(double dt)
 {
@@ -76,7 +80,7 @@ void Game::Update(double dt)
 		b2Vec2 force(mag * -sin(angle), mag * cos(angle));
 		blocks[0]->ApplyForce(force, point, true);
 	}
-
+	thruster->Update(dt);
 	//update box2d world
 	world->Step(dt, 6, 2);
 }
@@ -100,6 +104,7 @@ void Game::Render()
 	{
 		box2dBodyToSFML(blocks[i], sf::Color::Red);
 	}
+	thruster->Render();
 }
 Game::~Game()
 {
@@ -107,7 +112,7 @@ Game::~Game()
 
 sf::RectangleShape box2dBodyToSFML(b2Body* body, const sf::Color& color)
 {
-	float SCALE = 20.f;
+	float SCALE = 128.f;
 	// Assuming the body has a polygon shape fixture
 	b2Fixture* fixture = body->GetFixtureList();
 	if (!fixture)
@@ -123,7 +128,7 @@ sf::RectangleShape box2dBodyToSFML(b2Body* body, const sf::Color& color)
 	sf::RectangleShape rectangle;
 	rectangle.setSize(sf::Vector2f(size.x * 2.0f * SCALE, size.y * 2.0f * SCALE)); // Box2D's size is half-width and half-height
 	rectangle.setOrigin(size.x * SCALE, size.y * SCALE);						   // Set origin to center for proper rotation
-	rectangle.setPosition(SCALE * body->GetPosition().x + width / 2, -SCALE * body->GetPosition().y + height / 2);
+	rectangle.setPosition(SCALE * body->GetPosition().x, -SCALE * body->GetPosition().y);
 	rectangle.setRotation(-body->GetAngle() * 180.0f / b2_pi); // Convert radians to degrees
 	rectangle.setFillColor(color);
 	window->draw(rectangle);
