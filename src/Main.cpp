@@ -20,6 +20,7 @@ int width, height;
 Menu menu;
 Game* game = nullptr;
 bool debug = true;
+Camera camera(sf::Vector2f(0.f, 0.f), 1.f);
 int main()
 {
 	SaveHandler::ResetDir();
@@ -29,9 +30,6 @@ int main()
 	// Use the screenScalingFactor
 	window->create(sf::VideoMode(800.0f * screenScalingFactor, 500.0f * screenScalingFactor), "Planet Sim");
 	window->setVerticalSyncEnabled(false);
-	sf::Vector2u windowSize = window->getSize();
-	width = windowSize.x;
-	height = windowSize.y;
 	sf::Image icon;
 	icon.loadFromFile("resources/images/icon.png");
 	window->setIcon(256, 256, icon.getPixelsPtr());
@@ -41,6 +39,7 @@ int main()
 	}
 	//gui.Init();
 	menu = InitMenu();
+	camera.Update();
 	deltaClock.restart();
 	if (debug)
 	{
@@ -49,17 +48,10 @@ int main()
 	}
 	while (window->isOpen())
 	{
-		//fix window size
-		if (window->getSize() != windowSize)
-		{
-			windowSize = window->getSize();
-			sf::View view(sf::FloatRect(0, 0, windowSize.x, windowSize.y));
-			window->setView(view);
-			width = windowSize.x;
-			height = windowSize.y;
-		}
+
 		inp.ProcessEvents();
 		double dt = deltaClock.restart().asSeconds();
+		camera.Update();
 		if (game != nullptr)
 		{
 			game->Update(dt);
@@ -70,7 +62,7 @@ int main()
 		{
 			game->Render();
 		}
-		menu.Render(dt);
+		camera.RenderMenu(menu, dt);
 		window->display();
 	}
 	return 0;
