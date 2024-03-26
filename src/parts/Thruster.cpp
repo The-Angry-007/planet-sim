@@ -10,6 +10,12 @@ Thruster::Thruster(int index, b2Vec2 pos)
 	{
 		window->close();
 	}
+	ignitedTexture = new sf::Texture();
+	std::string ignitedPath = "resources/textures/thruster" + std::to_string(index) + "ignited.png";
+	if (!ignitedTexture->loadFromFile(ignitedPath))
+	{
+		window->close();
+	}
 	sprite = new sf::Sprite(*texture);
 	sf::Vector2u size = texture->getSize();
 	sprite->setOrigin(size.x / 2, size.y / 2);
@@ -31,6 +37,14 @@ Thruster::Thruster(int index, b2Vec2 pos)
 }
 void Thruster::Render()
 {
+	if (inp.keyDown(sf::Keyboard::Space))
+	{
+		sprite->setTexture(*ignitedTexture);
+		sprite->setTextureRect(sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(ignitedTexture->getSize())));
+		window->draw(*sprite);
+		sprite->setTexture(*texture);
+		sprite->setTextureRect(sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(texture->getSize())));
+	}
 	b2Vec2 bpos = body->GetPosition();
 	sprite->setPosition(bpos.x * 128, -bpos.y * 128);
 	sprite->setRotation(-body->GetAngle() / 3.14159f * 180.f);
@@ -38,4 +52,17 @@ void Thruster::Render()
 }
 void Thruster::Update(double dt)
 {
+	if (inp.keyDown(sf::Keyboard::Key::Space))
+	{
+		b2Vec2 centre = body->GetPosition();
+		float angle = body->GetAngle();
+		b2Vec2 offset(0.f, -1.5f);
+		b2Vec2 worldOffset;
+		worldOffset.x = offset.x * cos(angle) - offset.y * sin(angle);
+		worldOffset.y = offset.x * sin(angle) + offset.y * cos(angle);
+		b2Vec2 point = worldOffset + centre;
+		float mag = 400.f;
+		b2Vec2 force(mag * -sin(angle), mag * cos(angle));
+		body->ApplyForce(force, point, true);
+	}
 }

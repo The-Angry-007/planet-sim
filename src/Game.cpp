@@ -51,10 +51,6 @@ void Game::Init()
 
 		blockBody->CreateFixture(&blockFixtureDef);
 	}
-	b2WeldJointDef weld;
-	weld.Initialize(blocks[0], blocks[1], blocks[0]->GetPosition() + b2Vec2(0.f, 0.5f));
-	weld.collideConnected = false;
-	world->CreateJoint(&weld);
 	thruster = new Thruster(0, b2Vec2(0.f, 10.f));
 }
 void Game::Update(double dt)
@@ -67,19 +63,7 @@ void Game::Update(double dt)
 	{
 		return;
 	}
-	if (inp.keyDown(sf::Keyboard::Space))
-	{
-		b2Vec2 centre = blocks[0]->GetPosition();
-		float angle = blocks[0]->GetAngle();
-		b2Vec2 offset(0.f, -0.5f);
-		b2Vec2 worldOffset;
-		worldOffset.x = offset.x * cos(angle) - offset.y * sin(angle);
-		worldOffset.y = offset.x * sin(angle) + offset.y * cos(angle);
-		b2Vec2 point = worldOffset + centre;
-		float mag = 5000.f;
-		b2Vec2 force(mag * -sin(angle), mag * cos(angle));
-		blocks[0]->ApplyForce(force, point, true);
-	}
+
 	thruster->Update(dt);
 	//update box2d world
 	world->Step(dt, 6, 2);
