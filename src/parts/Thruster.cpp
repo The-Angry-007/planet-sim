@@ -33,7 +33,7 @@ Thruster::Thruster(int index, b2Vec2 pos)
 		b2Vec2(-1.f, -1.5f)
 	};
 	poly.Set(verts, 4);
-	body->CreateFixture(&poly, 1.f);
+	body->CreateFixture(&poly, 1000.f);
 }
 void Thruster::Render()
 {
@@ -56,12 +56,21 @@ void Thruster::Update(double dt)
 	{
 		b2Vec2 centre = body->GetPosition();
 		float angle = body->GetAngle();
+
 		b2Vec2 offset(0.f, -1.5f);
 		b2Vec2 worldOffset;
 		worldOffset.x = offset.x * cos(angle) - offset.y * sin(angle);
 		worldOffset.y = offset.x * sin(angle) + offset.y * cos(angle);
 		b2Vec2 point = worldOffset + centre;
-		float mag = 400.f;
+		if (inp.keyDown(sf::Keyboard::Key::Left))
+		{
+			angle -= 0.03f;
+		}
+		if (inp.keyDown(sf::Keyboard::Key::Right))
+		{
+			angle += 0.03f;
+		}
+		float mag = 150000.f;
 		b2Vec2 force(mag * -sin(angle), mag * cos(angle));
 		body->ApplyForce(force, point, true);
 	}

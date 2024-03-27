@@ -12,7 +12,7 @@ void Game::Init()
 	std::cout << "initialising game" << std::endl;
 	std::cout << "save path is " << savePath << std::endl;
 	paused = false;
-	b2Vec2 gravity(0.f, -9.81f);
+	b2Vec2 gravity(0.f, 0.f);
 	world = new b2World(gravity);
 	// Define the ground body
 	b2BodyDef groundBodyDef;
@@ -32,7 +32,7 @@ void Game::Init()
 	float blockHeight = 1.0f;	// Height of each block
 	float blockSpacing = 0.01f; // Small vertical spacing between blocks to prevent them from sticking
 
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < 0; ++i)
 	{
 		b2BodyDef blockBodyDef;
 		blockBodyDef.type = b2_dynamicBody;
