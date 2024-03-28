@@ -1,5 +1,6 @@
 #pragma once
 #include "box2d/box2d.h"
+#include "parts/FuelTank.hpp"
 #include "parts/Thruster.hpp"
 class Game
 {
@@ -13,6 +14,7 @@ public:
 	b2Body* groundBody;
 	std::vector<b2Body*> blocks;
 	Thruster* thruster;
+	FuelTank* fuel;
 	void Init();
 	Game();
 	~Game();

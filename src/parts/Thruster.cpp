@@ -33,7 +33,7 @@ Thruster::Thruster(int index, b2Vec2 pos)
 		b2Vec2(-1.f, -1.5f)
 	};
 	poly.Set(verts, 4);
-	body->CreateFixture(&poly, 1000.f);
+	body->CreateFixture(&poly, 7850.f);
 }
 void Thruster::Render()
 {

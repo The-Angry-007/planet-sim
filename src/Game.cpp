@@ -52,6 +52,7 @@ void Game::Init()
 		blockBody->CreateFixture(&blockFixtureDef);
 	}
 	thruster = new Thruster(0, b2Vec2(0.f, 10.f));
+	fuel = new FuelTank(0, b2Vec2(0.f, 12.f));
 }
 void Game::Update(double dt)
 {
@@ -65,6 +66,7 @@ void Game::Update(double dt)
 	}
 
 	thruster->Update(dt);
+	fuel->Update(dt);
 	//update box2d world
 	world->Step(dt, 6, 2);
 }
@@ -89,6 +91,7 @@ void Game::Render()
 		box2dBodyToSFML(blocks[i], sf::Color::Red);
 	}
 	thruster->Render();
+	fuel->Render();
 }
 Game::~Game()
 {
