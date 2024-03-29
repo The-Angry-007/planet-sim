@@ -36,6 +36,10 @@ void ClickFuncs::ResumeGame()
 
 void ClickFuncs::QuitToTitle()
 {
+	SaveHandler::SaveGame();
+
 	SaveHandler::ResetDir();
+
+	game = nullptr;
 	menu.OpenMenu(0);
 }

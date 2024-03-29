@@ -56,6 +56,7 @@ void Game::Init()
 	structure->AddPart(new FuelTank(0, b2Vec2(0.f, 12.f)));
 	structure->AddConnection(0, 1);
 	structure->focused = true;
+	timePassed = new sf::Clock();
 }
 void Game::Update(double dt)
 {

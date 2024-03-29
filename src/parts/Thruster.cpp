@@ -57,16 +57,19 @@ void Thruster::InitSprites()
 
 void Thruster::Render()
 {
+	//before, cone angle was relative to world. this meant that if whole thruster was rotating fast,
+	//cone would lag behind, so instead now its relative.
+	float worldConeAngle = coneAngle + body->GetAngle();
 	b2Vec2 bpos = body->GetPosition();
 	sf::Vector2f worldPos(bpos.x * 128.f, -bpos.y * 128.f);
 	if (inp.keyDown(sf::Keyboard::Space))
 	{
 		ignitedSprite->setPosition(worldPos);
-		ignitedSprite->setRotation(-coneAngle / b2_pi * 180.f);
+		ignitedSprite->setRotation(-worldConeAngle / b2_pi * 180.f);
 		window->draw(*ignitedSprite);
 	}
 	coneSprite->setPosition(worldPos);
-	coneSprite->setRotation(-coneAngle / b2_pi * 180.f);
+	coneSprite->setRotation(-worldConeAngle / b2_pi * 180.f);
 	window->draw(*coneSprite);
 
 	sprite->setPosition(worldPos);
@@ -75,7 +78,7 @@ void Thruster::Render()
 }
 void Thruster::Update(double dt)
 {
-	float targetAngle = body->GetAngle();
+	float targetAngle = 0.f;
 	if (inp.keyDown(sf::Keyboard::Key::Space))
 	{
 		b2Vec2 centre = body->GetPosition();
@@ -100,5 +103,5 @@ void Thruster::Update(double dt)
 		b2Vec2 force(mag * -sin(angle), mag * cos(angle));
 		body->ApplyForce(force, point, true);
 	}
-	coneAngle = Lerp(coneAngle, targetAngle, dt * 10);
+	coneAngle = Lerp(coneAngle, targetAngle, dt * 10.f);
 }

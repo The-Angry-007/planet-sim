@@ -17,6 +17,30 @@ void Menu::OpenMenu(int menu)
 	{
 		slots = {};
 		std::vector<std::string> dirs = SaveHandler::listDirs(SaveHandler::workingDir);
+		//this is all to sort by made newest first, it gets the time after 1970 it was created
+		//for each file and uses that to put them in order (biggest first)
+		std::vector<int> dates;
+		for (uint i = 0; i < dirs.size(); i++)
+		{
+			int time = std::stoi(SaveHandler::getLines(SaveHandler::workingDir + "\\" + dirs[i] + "\\metadata.txt")[1]);
+			dates.push_back(time);
+		}
+		//bubble sort algorithm (im lazy)
+		for (uint i = 0; i < dates.size(); i++)
+		{
+			for (uint j = 0; j < dates.size() - i - 1; j++)
+			{
+				if (dates[j] < dates[j + 1])
+				{
+					int temp = dates[j];
+					dates[j] = dates[j + 1];
+					dates[j + 1] = temp;
+					std::string temp2 = dirs[j];
+					dirs[j] = dirs[j + 1];
+					dirs[j + 1] = temp2;
+				}
+			}
+		}
 		for (uint i = 0; i < dirs.size(); i++)
 		{
 			slots.push_back(SaveSlot(dirs[i], sf::Vector2f(0.5f, 0.1f + 0.15f * i), sf::Vector2f(0.5f, 0.1f)));

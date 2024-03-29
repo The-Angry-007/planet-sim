@@ -15,6 +15,7 @@ public:
 	b2Body* groundBody;
 	std::vector<b2Body*> blocks;
 	Structure* structure;
+	sf::Clock* timePassed;
 	void Init();
 	Game();
 	~Game();

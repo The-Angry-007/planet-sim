@@ -1,5 +1,6 @@
 #include "inputHandler.hpp"
 #include "Main.hpp"
+#include "SaveHandler.hpp"
 InputHandler::InputHandler()
 {}
 void InputHandler::ProcessEvents()
@@ -24,6 +25,10 @@ void InputHandler::ProcessEvents()
 		}
 		if (event.type == event.Closed)
 		{
+			if (game != nullptr)
+			{
+				SaveHandler::SaveGame();
+			}
 			window->close();
 			exit(0);
 		}

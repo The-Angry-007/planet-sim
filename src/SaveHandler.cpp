@@ -1,4 +1,5 @@
 #include "SaveHandler.hpp"
+#include "Main.hpp"
 #include <chrono>
 #include <fstream>
 #include <iostream>
@@ -159,4 +160,15 @@ void SaveHandler::ResetDir()
 
 		createDir(workingDir);
 	}
+}
+
+void SaveHandler::SaveGame()
+{
+	//update metadata
+	std::vector<std::string> metadata = getLines(workingDir + "\\metadata.txt");
+	std::cout << metadata.size() << std::endl;
+	int seconds = std::stoi(metadata[2]);
+	seconds += game->timePassed->getElapsedTime().asSeconds();
+	metadata[2] = std::to_string(seconds);
+	WriteLines(metadata, workingDir + "\\metadata.txt");
 }

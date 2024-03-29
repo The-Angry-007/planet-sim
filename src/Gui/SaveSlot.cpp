@@ -53,7 +53,7 @@ void SaveSlot::Update()
 }
 void SaveSlot::onClick()
 {
-	SaveHandler::workingDir += "/" + path;
+	SaveHandler::workingDir += "\\" + path;
 	menu.OpenMenu(4);
 	game = new Game();
 	game->Init();
