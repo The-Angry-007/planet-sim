@@ -39,3 +39,8 @@ void GetMaxFontSize(sf::Text* text, sf::Vector2f bounds)
 		}
 	}
 }
+
+float Lerp(float a, float b, float c)
+{
+	return a + (b - a) * c;
+}

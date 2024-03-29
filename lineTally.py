@@ -2,6 +2,8 @@
 import os
 directory = os.getcwd() + "\\src"
 total_lines = 0
+paths = []
+lines = []
 for root, dirs, files in os.walk(directory):
 	#ignore any of the code i didnt write, not trying to steal credit
 	if "Platform" in root or "Utility" in root or "box2d" in root:
@@ -9,5 +11,16 @@ for root, dirs, files in os.walk(directory):
 	for file in files:
 		file_path = os.path.join(root,file)
 		with open(file_path,'r', encoding = "utf-8", errors="ignore") as f:
-			total_lines += len(f.readlines())
+			total = len(f.readlines())
+			paths.append(file_path[len(directory)+1:])
+			lines.append(total)
+			total_lines += total
 print("Directory contains",total_lines, "lines of code")
+#sort the files from largest to smallest
+for i in range(len(lines)):
+	for j in range(1,len(lines) - i):
+		if lines[j-1] < lines[j]:
+			lines[j],lines[j-1] = lines[j-1],lines[j]
+			paths[j],paths[j-1] = paths[j-1],paths[j]
+for i in range(len(paths)):
+	print(paths[i],"has",lines[i],"lines")

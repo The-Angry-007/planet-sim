@@ -16,18 +16,18 @@ Week 1 - 18/3/24 - 24/3/24
 x start new project, carry over the inputHandler and GUI class
 x create menu class that allows you to load a game, start a game, quit, change options (which will be blank)
 x create game class that takes over when you load in, also has pause menu and settings
-####YOU ARE HERE####
-Week 2: 25/4 - 31/4
+Week 2: 25/4 - 31/4 (6/12)
 x Create part class that has mass, position, rotation and box2d component
 x each subclass has an id, which links to a specific texture
-- create subclass for thruster and subclass for fuel tank
+x create subclass for thruster and subclass for fuel tank
+####YOU ARE HERE####
 - write a function that can save each subclass and load it in again
-- mouse creates force to make sure box2d works properly
+x mouse creates force to make sure box2d works properly
 - create structure class that has a list of parts, each part is fused together with box2d
 - also a 2d array of integers to show what is connected to what
 	- for n parts, the outer array is n items long and the inner is however many are connected to the ith part
-- add camera class, and can set it to follow a structure
-- thruster can actually thrust
+x add camera class, and can set it to follow a structure
+x thruster can actually thrust
 - gui to show the capacity of any fuel tanks of the selected structure, if 2 are connected show as one big bar
 - maybe add a few other subclasses and then call it quits
 Week 3: 1/4 - 7/4

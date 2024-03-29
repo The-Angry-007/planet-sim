@@ -6,6 +6,11 @@ class Thruster : Part
 public:
 	Thruster(int index, b2Vec2 pos);
 	sf::Texture* ignitedTexture;
+	sf::Sprite* ignitedSprite;
+	sf::Texture* coneTexture;
+	sf::Sprite* coneSprite;
+	float coneAngle;
 	void Update(double dt);
 	void Render();
+	void InitSprites();
 };

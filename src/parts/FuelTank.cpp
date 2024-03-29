@@ -12,6 +12,7 @@ FuelTank::FuelTank(int index, b2Vec2 pos)
 	}
 	sprite = new sf::Sprite(*texture);
 	sf::Vector2u size = texture->getSize();
+	sprite->setScale(4.f, 4.f);
 	sprite->setOrigin(size.x / 2, size.y / 2);
 	//box2d setup
 	b2BodyDef bodyDef;
