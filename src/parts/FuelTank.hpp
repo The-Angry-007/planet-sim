@@ -1,6 +1,6 @@
 #pragma once
 #include "parts/Part.hpp"
-class FuelTank : Part
+class FuelTank : public Part
 {
 public:
 	float capacity;

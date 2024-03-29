@@ -25,6 +25,7 @@ void InputHandler::ProcessEvents()
 		if (event.type == event.Closed)
 		{
 			window->close();
+			exit(0);
 		}
 		if (event.type == event.KeyPressed)
 		{

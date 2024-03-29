@@ -88,17 +88,17 @@ void Thruster::Update(double dt)
 		b2Vec2 point = worldOffset + centre;
 		if (inp.keyDown(sf::Keyboard::Key::Left))
 		{
-			angle -= 0.03f;
+			angle -= 0.1f;
 			targetAngle -= 0.2f;
 		}
 		if (inp.keyDown(sf::Keyboard::Key::Right))
 		{
-			angle += 0.03f;
+			angle += 0.1f;
 			targetAngle += 0.2f;
 		}
 		float mag = 150000.f;
 		b2Vec2 force(mag * -sin(angle), mag * cos(angle));
 		body->ApplyForce(force, point, true);
 	}
-	coneAngle = Lerp(coneAngle, targetAngle, dt * 3);
+	coneAngle = Lerp(coneAngle, targetAngle, dt * 10);
 }
