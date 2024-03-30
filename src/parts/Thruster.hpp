@@ -13,4 +13,6 @@ public:
 	void Update(double dt);
 	void Render();
 	void InitSprites();
+	Thruster(std::string saveString);
+	std::string toString();
 };

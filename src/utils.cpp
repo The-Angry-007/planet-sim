@@ -44,3 +44,26 @@ float Lerp(float a, float b, float c)
 {
 	return a + (b - a) * c;
 }
+
+std::vector<std::string> split(std::string str, char splitter)
+{
+	std::vector<std::string> list;
+	std::string current = "";
+	for (uint i = 0; i < str.size(); i++)
+	{
+		if (str[i] == splitter)
+		{
+			list.push_back(current);
+			current = "";
+		}
+		else
+		{
+			current += str[i];
+		}
+	}
+	if (current != "")
+	{
+		list.push_back(current);
+	}
+	return list;
+}

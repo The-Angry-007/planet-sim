@@ -56,7 +56,8 @@ void SaveSlot::onClick()
 	SaveHandler::workingDir += "\\" + path;
 	menu.OpenMenu(4);
 	game = new Game();
-	game->Init();
+	//this is in fact not a new game, this is just for testing purposes
+	game->Init(false);
 }
 SaveSlot::~SaveSlot()
 {

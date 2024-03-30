@@ -25,4 +25,4 @@ for root, dirs, files in os.walk(directory):
 			lines.append(total)
 			total_lines += total
 print("Directory contains",total_lines, "lines of code")
-#linesPerFile()
+linesPerFile()

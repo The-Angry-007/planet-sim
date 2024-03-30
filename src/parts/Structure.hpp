@@ -18,4 +18,6 @@ public:
 	void CentreCamera();
 	void Render();
 	void ResetCOM();
+	std::string toString();
+	Structure(std::vector<std::string> saveStrings);
 };

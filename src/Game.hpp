@@ -10,13 +10,14 @@ public:
 	bool paused;
 	void Update(double dt);
 	void Render();
+	void Init(bool newGame);
 	void TogglePaused();
+	void NewGame();
 	b2World* world;
 	b2Body* groundBody;
 	std::vector<b2Body*> blocks;
-	Structure* structure;
+	std::vector<Structure> structures;
 	sf::Clock* timePassed;
-	void Init();
 	Game();
 	~Game();
 };

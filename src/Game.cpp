@@ -6,28 +6,8 @@
 Game::Game()
 {
 }
-void Game::Init()
+void Game::NewGame()
 {
-	this->savePath = SaveHandler::workingDir;
-	std::cout << "initialising game" << std::endl;
-	std::cout << "save path is " << savePath << std::endl;
-	paused = false;
-	b2Vec2 gravity(0.f, 0.f);
-	world = new b2World(gravity);
-	// Define the ground body
-	b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0.0f, -10.0f); // Position it (assuming 0,0 is the center and y is up)
-
-	// Call the world object to create the ground body
-	groundBody = world->CreateBody(&groundBodyDef);
-
-	// Define and add the ground shape
-	b2PolygonShape groundBox;
-	groundBox.SetAsBox(50.0f, 10.0f); // Set as a box of 50 units wide and 10 units tall
-
-	// Create a fixture with the shape on the body
-	groundBody->CreateFixture(&groundBox, 0.0f); // Density is 0.0f because it's static
-
 	float blockWidth = 1.0f;	// Width of each block
 	float blockHeight = 1.0f;	// Height of each block
 	float blockSpacing = 0.01f; // Small vertical spacing between blocks to prevent them from sticking
@@ -51,12 +31,43 @@ void Game::Init()
 
 		blockBody->CreateFixture(&blockFixtureDef);
 	}
-	structure = new Structure();
-	structure->AddPart(new Thruster(0, b2Vec2(0.f, 10.f)));
-	structure->AddPart(new FuelTank(0, b2Vec2(0.f, 12.f)));
-	structure->AddConnection(0, 1);
-	structure->focused = true;
+	Structure structure;
+	structure.AddPart(new Thruster(0, b2Vec2(0.f, 10.f)));
+	structure.AddPart(new FuelTank(0, b2Vec2(0.f, 12.f)));
+	structure.AddConnection(0, 1);
+	structure.focused = true;
+	structures.push_back(structure);
+}
+void Game::Init(bool newGame)
+{
+
+	this->savePath = SaveHandler::workingDir;
+	paused = false;
+	b2Vec2 gravity(0.f, 0.f);
+	world = new b2World(gravity);
+	// Define the ground body
+	b2BodyDef groundBodyDef;
+	groundBodyDef.position.Set(0.0f, -10.0f); // Position it (assuming 0,0 is the center and y is up)
+
+	// Call the world object to create the ground body
+	groundBody = world->CreateBody(&groundBodyDef);
+
+	// Define and add the ground shape
+	b2PolygonShape groundBox;
+	groundBox.SetAsBox(50.0f, 10.0f); // Set as a box of 50 units wide and 10 units tall
+
+	// Create a fixture with the shape on the body
+	groundBody->CreateFixture(&groundBox, 0.0f); // Density is 0.0f because it's static
+
 	timePassed = new sf::Clock();
+	if (newGame)
+	{
+		NewGame();
+	}
+	else
+	{
+		SaveHandler::LoadGame();
+	}
 }
 void Game::Update(double dt)
 {
@@ -68,8 +79,10 @@ void Game::Update(double dt)
 	{
 		return;
 	}
-
-	structure->Update(dt);
+	for (uint i = 0; i < structures.size(); i++)
+	{
+		structures[i].Update(dt);
+	}
 	//update box2d world
 	world->Step(dt, 6, 2);
 }
@@ -93,7 +106,10 @@ void Game::Render()
 	{
 		box2dBodyToSFML(blocks[i], sf::Color::Red);
 	}
-	structure->Render();
+	for (uint i = 0; i < structures.size(); i++)
+	{
+		structures[i].Render();
+	}
 }
 Game::~Game()
 {
