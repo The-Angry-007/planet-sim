@@ -1,9 +1,11 @@
 #include "Camera.hpp"
 #include "Main.hpp"
+#include "utils.hpp"
 Camera::Camera(sf::Vector2f pos, float zoom)
 {
 	this->pos = pos;
 	this->zoom = zoom;
+	targetZoom = zoom;
 	view = sf::View(toFloatRect());
 	windowSize = sf::Vector2u(0, 0);
 	rotation = 0.f;
@@ -24,26 +26,27 @@ void Camera::Update()
 	}
 	if (inp.scroll.y != 0)
 	{
-		float oldZoom = zoom;
 		float zoomRate = 1.1f;
 		if (inp.scroll.y > 0)
 		{
 			zoomRate = 0.9f;
 		}
-		zoom *= (zoomRate * abs(inp.scroll.y));
+		targetZoom *= (zoomRate * abs(inp.scroll.y));
 		// // Adjust camera position to keep the point under the mouse stationary
 		// sf::Vector2f mousePosRelativeToView = window->mapPixelToCoords(static_cast<sf::Vector2i>(inp.mousePos));
 		// sf::Vector2f adjustment = (mousePosRelativeToView - pos) * (1 - (zoom / oldZoom));
 		// pos += adjustment;
-		if (zoom < 0.1f)
+		if (targetZoom < 0.1f)
 		{
-			zoom = 0.1f;
+			targetZoom = 0.1f;
 		}
-		if (zoom > 50.f)
+		if (targetZoom > 100.f)
 		{
-			zoom = 50.f;
+			targetZoom = 100.f;
 		}
 	}
+	zoom = targetZoom;
+	//zoom = Lerp(zoom, targetZoom, 0.01f);
 	view = sf::View(toFloatRect());
 	view.setRotation(rotation);
 	window->setView(view);

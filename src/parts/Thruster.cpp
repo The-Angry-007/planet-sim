@@ -24,6 +24,7 @@ Thruster::Thruster(int index, b2Vec2 pos, float angle)
 	};
 	poly.Set(verts, 4);
 	body->CreateFixture(&poly, 7850.f);
+	active = true;
 }
 void Thruster::InitSprites()
 {
@@ -42,6 +43,12 @@ void Thruster::InitSprites()
 	std::string conePath = "resources/textures/thruster" + std::to_string(index) + "cone.png";
 	coneTexture = new sf::Texture();
 	if (!coneTexture->loadFromFile(conePath))
+	{
+		window->close();
+	}
+	std::string activePath = "resources/textures/thruster" + std::to_string(index) + "light.png";
+	activeTexture = new sf::Texture();
+	if (!activeTexture->loadFromFile(activePath))
 	{
 		window->close();
 	}
@@ -77,11 +84,23 @@ void Thruster::Render()
 	sprite->setPosition(worldPos);
 	sprite->setRotation(-body->GetAngle() / b2_pi * 180.f);
 	window->draw(*sprite);
+	sprite->setTexture(*activeTexture);
+	if (active)
+	{
+		sprite->setColor(sf::Color::Green);
+	}
+	else
+	{
+		sprite->setColor(sf::Color::Red);
+	}
+	window->draw(*sprite);
+	sprite->setColor(sf::Color::White);
+	sprite->setTexture(*texture);
 }
 void Thruster::Update(double dt)
 {
 	float targetAngle = 0.f;
-	if (inp.keyDown(sf::Keyboard::Key::Space))
+	if (inp.keyDown(sf::Keyboard::Key::Space) && active)
 	{
 		b2Vec2 centre = body->GetPosition();
 		float angle = body->GetAngle();
@@ -117,6 +136,7 @@ std::string Thruster::toString()
 	str += " " + std::to_string(body->GetLinearVelocity().x) + " " + std::to_string(body->GetLinearVelocity().y);
 	str += " " + std::to_string(body->GetAngularVelocity());
 	str += " " + std::to_string(defaultRotation);
+	str += " " + std::to_string(active ? 1 : 0);
 	//any thruster specific data would go here, but there isnt any rn
 	return str;
 }
@@ -147,4 +167,9 @@ Thruster::Thruster(std::string saveString)
 	};
 	poly.Set(verts, 4);
 	body->CreateFixture(&poly, 7850.f);
+	active = false;
+	if (parts[8] == "1")
+	{
+		active = true;
+	}
 }

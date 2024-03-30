@@ -9,7 +9,9 @@ public:
 	sf::Sprite* ignitedSprite;
 	sf::Texture* coneTexture;
 	sf::Sprite* coneSprite;
+	sf::Texture* activeTexture;
 	float coneAngle;
+	bool active;
 	void Update(double dt);
 	void Render();
 	void InitSprites();

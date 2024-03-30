@@ -52,7 +52,6 @@ void Structure::AddConnection(Part* part1, Part* part2)
 }
 void Structure::Update(double dt)
 {
-	ResetCOM();
 
 	for (uint i = 0; i < parts.size(); i++)
 	{
@@ -63,6 +62,8 @@ void Structure::Render()
 {
 	if (focused)
 	{
+		ResetCOM();
+
 		CentreCamera();
 	}
 	for (uint i = 0; i < parts.size(); i++)

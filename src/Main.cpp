@@ -52,10 +52,12 @@ int main()
 		inp.ProcessEvents();
 		double dt = deltaClock.restart().asSeconds();
 		camera.Update();
+
 		if (game != nullptr)
 		{
 			game->Update(dt);
 		}
+
 		menu.Update();
 		window->clear(sf::Color(8, 0, 20));
 		if (game != nullptr)
