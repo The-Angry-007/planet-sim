@@ -32,8 +32,8 @@ void Game::NewGame()
 		blockBody->CreateFixture(&blockFixtureDef);
 	}
 	Structure structure;
-	structure.AddPart(new Thruster(0, b2Vec2(0.f, 10.f)));
-	structure.AddPart(new FuelTank(0, b2Vec2(0.f, 12.f)));
+	structure.AddPart(new Thruster(0, b2Vec2(0.f, 10.f), 0.f));
+	structure.AddPart(new FuelTank(0, b2Vec2(0.f, 12.f), 0.f));
 	structure.AddConnection(0, 1);
 	structure.focused = true;
 	structures.push_back(structure);
@@ -60,6 +60,7 @@ void Game::Init(bool newGame)
 	groundBody->CreateFixture(&groundBox, 0.0f); // Density is 0.0f because it's static
 
 	timePassed = new sf::Clock();
+
 	if (newGame)
 	{
 		NewGame();

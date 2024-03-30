@@ -5,6 +5,7 @@ class Part
 public:
 	sf::Texture* texture;
 	sf::Sprite* sprite;
+	float defaultRotation;
 	int index;
 	b2Body* body;
 	virtual void Render() = 0;

@@ -1,8 +1,9 @@
 #include "parts/FuelTank.hpp"
 #include "Main.hpp"
 #include "utils.hpp"
-FuelTank::FuelTank(int index, b2Vec2 pos)
+FuelTank::FuelTank(int index, b2Vec2 pos, float angle)
 {
+	defaultRotation = angle;
 	this->index = index;
 	SetCapacity();
 	texture = new sf::Texture();
@@ -19,6 +20,7 @@ FuelTank::FuelTank(int index, b2Vec2 pos)
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position = pos;
+	bodyDef.angle = angle;
 	body = game->world->CreateBody(&bodyDef);
 	b2PolygonShape shape;
 	shape.SetAsBox(1.f, 0.5f);
@@ -54,8 +56,11 @@ std::string FuelTank::toString()
 	std::string str = "1 ";
 	str += std::to_string(index) + " ";
 	str += std::to_string(body->GetPosition().x) + " " + std::to_string(body->GetPosition().y);
-	str += " " + std::to_string(body->GetAngle()) + " ";
-	str += std::to_string(capacity);
+	str += " " + std::to_string(body->GetAngle());
+	str += " " + std::to_string(body->GetLinearVelocity().x) + " " + std::to_string(body->GetLinearVelocity().y);
+	str += " " + std::to_string(body->GetAngularVelocity());
+	str += " " + std::to_string(defaultRotation);
+	str += " " + std::to_string(capacity);
 	return str;
 }
 
@@ -64,7 +69,7 @@ FuelTank::FuelTank(std::string saveString)
 	std::vector<std::string> parts = split(saveString, ' ');
 	index = std::stoi(parts[0]);
 	SetCapacity();
-	capacity = std::stof(parts[4]);
+	capacity = std::stof(parts[8]);
 	texture = new sf::Texture();
 	std::string path = "resources/textures/fuelTank" + std::to_string(index) + ".png";
 	if (!texture->loadFromFile(path))
@@ -80,6 +85,9 @@ FuelTank::FuelTank(std::string saveString)
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position = b2Vec2(std::stof(parts[1]), std::stof(parts[2]));
 	bodyDef.angle = std::stof(parts[3]);
+	bodyDef.linearVelocity = b2Vec2(std::stof(parts[4]), std::stof(parts[5]));
+	bodyDef.angularVelocity = std::stof(parts[6]);
+	defaultRotation = std::stof(parts[7]);
 	body = game->world->CreateBody(&bodyDef);
 	b2PolygonShape shape;
 	shape.SetAsBox(1.f, 0.5f);

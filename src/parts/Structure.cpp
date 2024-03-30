@@ -1,5 +1,6 @@
 #include "parts/Structure.hpp"
 #include "Main.hpp"
+#include "utils.hpp"
 Structure::Structure()
 {
 }
@@ -106,7 +107,7 @@ std::string Structure::toString()
 Structure::Structure(std::vector<std::string> saveStrings)
 {
 	int i = 0;
-	while (i < saveStrings.size() && saveStrings[i] != "\n")
+	while (i < saveStrings.size() && saveStrings[i] != "")
 	{
 		std::string line = saveStrings[i];
 		std::string index = "";
@@ -120,19 +121,37 @@ Structure::Structure(std::vector<std::string> saveStrings)
 		switch (std::stoi(index))
 		{
 			case 0:
-				parts.push_back(new Thruster(line));
+				AddPart(new Thruster(line));
 				break;
 			case 1:
-				parts.push_back(new FuelTank(line));
+				AddPart(new FuelTank(line));
 				break;
 			default:
 				break;
 		}
-
 		i++;
-		if (saveStrings[i] == "")
+	}
+	i++;
+	int j = 0;
+	while (i < saveStrings.size() && saveStrings[i] != "")
+	{
+		std::vector<std::string> connections = split(saveStrings[i], ' ');
+		for (uint k = 0; k < connections.size(); k++)
 		{
-			break;
+			int other = std::stoi(connections[k]);
+			if (other == -1)
+			{
+				break;
+			}
+			AddConnection(j, other);
 		}
+		j++;
+		i++;
+	}
+	i++;
+	focused = false;
+	if (saveStrings[i] == "1")
+	{
+		focused = true;
 	}
 }

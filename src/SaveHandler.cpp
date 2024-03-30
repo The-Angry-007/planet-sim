@@ -220,8 +220,11 @@ void SaveHandler::LoadGame()
 				currentStructure = {};
 				i++;
 			}
+			else
+			{
+				currentStructure.push_back("");
+			}
 			nlCount++;
-			currentStructure.push_back("");
 		}
 		else
 		{

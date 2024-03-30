@@ -2,8 +2,9 @@
 #include "Game.hpp"
 #include "Main.hpp"
 #include "utils.hpp"
-Thruster::Thruster(int index, b2Vec2 pos)
+Thruster::Thruster(int index, b2Vec2 pos, float angle)
 {
+	this->defaultRotation = angle;
 	this->index = index;
 	coneAngle = 0.f;
 	InitSprites();
@@ -11,6 +12,7 @@ Thruster::Thruster(int index, b2Vec2 pos)
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position = pos;
+	bodyDef.angle = angle;
 	body = game->world->CreateBody(&bodyDef);
 	b2PolygonShape poly;
 	//each square is 0.5m, and this is 4x6
@@ -111,7 +113,10 @@ std::string Thruster::toString()
 	std::string str = "0 ";
 	str += std::to_string(index) + " ";
 	str += std::to_string(body->GetPosition().x) + " " + std::to_string(body->GetPosition().y);
-	str += " " + std::to_string(body->GetAngle()) + " ";
+	str += " " + std::to_string(body->GetAngle());
+	str += " " + std::to_string(body->GetLinearVelocity().x) + " " + std::to_string(body->GetLinearVelocity().y);
+	str += " " + std::to_string(body->GetAngularVelocity());
+	str += " " + std::to_string(defaultRotation);
 	//any thruster specific data would go here, but there isnt any rn
 	return str;
 }
@@ -128,6 +133,9 @@ Thruster::Thruster(std::string saveString)
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position = b2Vec2(std::stof(parts[1]), std::stof(parts[2]));
 	bodyDef.angle = std::stof(parts[3]);
+	bodyDef.linearVelocity = b2Vec2(std::stof(parts[4]), std::stof(parts[5]));
+	bodyDef.angularVelocity = std::stof(parts[6]);
+	defaultRotation = std::stof(parts[7]);
 	body = game->world->CreateBody(&bodyDef);
 	b2PolygonShape poly;
 	//each square is 0.5m, and this is 4x6

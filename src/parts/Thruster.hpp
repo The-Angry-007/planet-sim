@@ -4,7 +4,7 @@
 class Thruster : public Part
 {
 public:
-	Thruster(int index, b2Vec2 pos);
+	Thruster(int index, b2Vec2 pos, float angle);
 	sf::Texture* ignitedTexture;
 	sf::Sprite* ignitedSprite;
 	sf::Texture* coneTexture;

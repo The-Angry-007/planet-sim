@@ -19,7 +19,7 @@ sf::Font* defaultFont = new sf::Font();
 int width, height;
 Menu menu;
 Game* game = nullptr;
-bool debug = true;
+bool debug = false;
 Camera camera(sf::Vector2f(0.f, 0.f), 20.f);
 int main()
 {

@@ -5,7 +5,6 @@ Camera::Camera(sf::Vector2f pos, float zoom)
 	this->pos = pos;
 	this->zoom = zoom;
 	view = sf::View(toFloatRect());
-	zoomRate = 1.f;
 	windowSize = sf::Vector2u(0, 0);
 }
 void Camera::Update()
@@ -25,7 +24,12 @@ void Camera::Update()
 	if (inp.scroll.y != 0)
 	{
 		float oldZoom = zoom;
-		zoom -= zoomRate * inp.scroll.y;
+		float zoomRate = 1.1f;
+		if (inp.scroll.y > 0)
+		{
+			zoomRate = 0.9f;
+		}
+		zoom *= (zoomRate * abs(inp.scroll.y));
 		// // Adjust camera position to keep the point under the mouse stationary
 		// sf::Vector2f mousePosRelativeToView = window->mapPixelToCoords(static_cast<sf::Vector2i>(inp.mousePos));
 		// sf::Vector2f adjustment = (mousePosRelativeToView - pos) * (1 - (zoom / oldZoom));
@@ -33,6 +37,10 @@ void Camera::Update()
 		if (zoom < 0.1f)
 		{
 			zoom = 0.1f;
+		}
+		if (zoom > 50.f)
+		{
+			zoom = 50.f;
 		}
 	}
 	view = sf::View(toFloatRect());

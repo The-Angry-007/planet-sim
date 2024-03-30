@@ -6,7 +6,7 @@ public:
 	float capacity;
 	float maxCapacity;
 	void SetCapacity();
-	FuelTank(int index, b2Vec2 pos);
+	FuelTank(int index, b2Vec2 pos, float angle);
 	void UpdateDensity();
 	void Update(double dt);
 	void Render();
