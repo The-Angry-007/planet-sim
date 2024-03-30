@@ -18,6 +18,8 @@ public:
 	void CentreCamera();
 	void Render();
 	void ResetCOM();
+	void GetRotation();
+	float rotation;
 	std::string toString();
 	Structure(std::vector<std::string> saveStrings);
 };

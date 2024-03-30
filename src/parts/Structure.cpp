@@ -73,6 +73,8 @@ void Structure::Render()
 void Structure::CentreCamera()
 {
 	camera.pos = sf::Vector2f(com.x * 128.f, -com.y * 128.f);
+	GetRotation();
+	camera.rotation = rotation * 180.f / b2_pi;
 }
 
 std::string Structure::toString()
@@ -154,4 +156,23 @@ Structure::Structure(std::vector<std::string> saveStrings)
 	{
 		focused = true;
 	}
+}
+
+void Structure::GetRotation()
+{
+	float sumSin = 0.f;
+	float sumCos = 0.f;
+	for (uint i = 0; i < parts.size(); i++)
+	{
+		float dif = parts[i]->body->GetAngle() - parts[i]->defaultRotation;
+		sumSin += sin(dif);
+		sumCos += cos(dif);
+	}
+	float angle = -atan2(sumSin / (float)parts.size(), sumCos / (float)parts.size());
+	angle = fmod(angle, 2 * b2_pi);
+	if (angle < 0)
+	{
+		angle += 2 * b2_pi;
+	}
+	rotation = angle;
 }

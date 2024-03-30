@@ -6,6 +6,7 @@ public:
 	sf::View view;
 	sf::Vector2f pos;
 	float zoom;
+	float rotation;
 	sf::Vector2u windowSize;
 	sf::Vector2f prevMousePos;
 	float zoomRate;

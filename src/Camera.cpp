@@ -6,6 +6,7 @@ Camera::Camera(sf::Vector2f pos, float zoom)
 	this->zoom = zoom;
 	view = sf::View(toFloatRect());
 	windowSize = sf::Vector2u(0, 0);
+	rotation = 0.f;
 }
 void Camera::Update()
 {
@@ -44,6 +45,7 @@ void Camera::Update()
 		}
 	}
 	view = sf::View(toFloatRect());
+	view.setRotation(rotation);
 	window->setView(view);
 	prevMousePos = inp.mousePos;
 }

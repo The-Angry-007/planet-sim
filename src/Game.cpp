@@ -33,7 +33,7 @@ void Game::NewGame()
 	}
 	Structure structure;
 	structure.AddPart(new Thruster(0, b2Vec2(0.f, 10.f), 0.f));
-	structure.AddPart(new FuelTank(0, b2Vec2(0.f, 12.f), 0.f));
+	structure.AddPart(new FuelTank(0, b2Vec2(0.f, 12.f), b2_pi));
 	structure.AddConnection(0, 1);
 	structure.focused = true;
 	structures.push_back(structure);
