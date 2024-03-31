@@ -14,16 +14,26 @@ Thruster::Thruster(int index, b2Vec2 pos, float angle)
 	bodyDef.position = pos;
 	bodyDef.angle = angle;
 	body = game->world->CreateBody(&bodyDef);
-	b2PolygonShape poly;
+	b2PolygonShape poly1;
 	//each square is 0.5m, and this is 4x6
-	b2Vec2 verts[4] = {
+	//this is the top bit
+	b2Vec2 verts1[4] = {
 		b2Vec2(-1.f, 1.5f),
 		b2Vec2(1.f, 1.5f),
+		b2Vec2(1.f, 0.625f),
+		b2Vec2(-1.f, 0.625f)
+	};
+	poly1.Set(verts1, 4);
+	body->CreateFixture(&poly1, 7850.f);
+	b2PolygonShape poly2;
+	b2Vec2 verts2[4] = {
+		b2Vec2(-0.5625f, 0.59375f),
+		b2Vec2(0.5625f, 0.59375f),
 		b2Vec2(1.f, -1.5f),
 		b2Vec2(-1.f, -1.5f)
 	};
-	poly.Set(verts, 4);
-	body->CreateFixture(&poly, 7850.f);
+	poly2.Set(verts2, 4);
+	body->CreateFixture(&poly2, 7850.f);
 	active = true;
 }
 void Thruster::InitSprites()
@@ -71,7 +81,7 @@ void Thruster::Render()
 	float worldConeAngle = coneAngle + body->GetAngle();
 	b2Vec2 bpos = body->GetPosition();
 	sf::Vector2f worldPos(bpos.x * 128.f, -bpos.y * 128.f);
-	if (inp.keyDown(sf::Keyboard::Space))
+	if (inp.keyDown(sf::Keyboard::Space) && active)
 	{
 		ignitedSprite->setPosition(worldPos);
 		ignitedSprite->setRotation(-worldConeAngle / b2_pi * 180.f);
@@ -100,26 +110,31 @@ void Thruster::Render()
 void Thruster::Update(double dt)
 {
 	float targetAngle = 0.f;
+	float angle = body->GetAngle();
+	if (inp.keyDown(sf::Keyboard::Key::Left))
+	{
+		angle -= 0.1f;
+		targetAngle -= 0.2f;
+	}
+	if (inp.keyDown(sf::Keyboard::Key::Right))
+	{
+		angle += 0.1f;
+		targetAngle += 0.2f;
+	}
+	if (inp.mbPressed(sf::Mouse::Button::Left) && mouseTouchingBody(body))
+	{
+		active = !active;
+	}
 	if (inp.keyDown(sf::Keyboard::Key::Space) && active)
 	{
 		b2Vec2 centre = body->GetPosition();
-		float angle = body->GetAngle();
 
 		b2Vec2 offset(0.f, -1.5f);
 		b2Vec2 worldOffset;
 		worldOffset.x = offset.x * cos(angle) - offset.y * sin(angle);
 		worldOffset.y = offset.x * sin(angle) + offset.y * cos(angle);
 		b2Vec2 point = worldOffset + centre;
-		if (inp.keyDown(sf::Keyboard::Key::Left))
-		{
-			angle -= 0.1f;
-			targetAngle -= 0.2f;
-		}
-		if (inp.keyDown(sf::Keyboard::Key::Right))
-		{
-			angle += 0.1f;
-			targetAngle += 0.2f;
-		}
+
 		float mag = 150000.f;
 		b2Vec2 force(mag * -sin(angle), mag * cos(angle));
 		body->ApplyForce(force, point, true);
@@ -157,16 +172,26 @@ Thruster::Thruster(std::string saveString)
 	bodyDef.angularVelocity = std::stof(parts[6]);
 	defaultRotation = std::stof(parts[7]);
 	body = game->world->CreateBody(&bodyDef);
-	b2PolygonShape poly;
+	b2PolygonShape poly1;
 	//each square is 0.5m, and this is 4x6
-	b2Vec2 verts[4] = {
+	//this is the top bit
+	b2Vec2 verts1[4] = {
 		b2Vec2(-1.f, 1.5f),
 		b2Vec2(1.f, 1.5f),
+		b2Vec2(1.f, 0.625f),
+		b2Vec2(-1.f, 0.625f)
+	};
+	poly1.Set(verts1, 4);
+	body->CreateFixture(&poly1, 7850.f);
+	b2PolygonShape poly2;
+	b2Vec2 verts2[4] = {
+		b2Vec2(-0.5625f, 0.59375f),
+		b2Vec2(0.5625f, 0.59375f),
 		b2Vec2(1.f, -1.5f),
 		b2Vec2(-1.f, -1.5f)
 	};
-	poly.Set(verts, 4);
-	body->CreateFixture(&poly, 7850.f);
+	poly2.Set(verts2, 4);
+	body->CreateFixture(&poly2, 7850.f);
 	active = false;
 	if (parts[8] == "1")
 	{

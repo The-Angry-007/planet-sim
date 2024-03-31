@@ -26,6 +26,7 @@ void Structure::ResetCOM()
 void Structure::AddConnection(int part1, int part2)
 {
 	connections[part1].push_back(part2);
+	connections[part2].push_back(part1);
 	b2Body* b1 = parts[part1]->body;
 	b2Body* b2 = parts[part2]->body;
 	b2Vec2 point = b1->GetPosition() + b2->GetPosition();
@@ -52,7 +53,13 @@ void Structure::AddConnection(Part* part1, Part* part2)
 }
 void Structure::Update(double dt)
 {
+	if (focused)
+	{
+		ResetCOM();
 
+		CentreCamera();
+		camera.UpdateView();
+	}
 	for (uint i = 0; i < parts.size(); i++)
 	{
 		parts[i]->Update(dt);
@@ -60,12 +67,7 @@ void Structure::Update(double dt)
 }
 void Structure::Render()
 {
-	if (focused)
-	{
-		ResetCOM();
 
-		CentreCamera();
-	}
 	for (uint i = 0; i < parts.size(); i++)
 	{
 		parts[i]->Render();

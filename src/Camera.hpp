@@ -13,6 +13,7 @@ public:
 	float zoomRate;
 	sf::FloatRect toFloatRect();
 	Camera(sf::Vector2f pos, float zoom);
+	void UpdateView();
 	void Update();
 	void RenderMenu(Menu menu, double dt);
 };

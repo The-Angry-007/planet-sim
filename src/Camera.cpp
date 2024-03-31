@@ -10,6 +10,12 @@ Camera::Camera(sf::Vector2f pos, float zoom)
 	windowSize = sf::Vector2u(0, 0);
 	rotation = 0.f;
 }
+void Camera::UpdateView()
+{
+	view = sf::View(toFloatRect());
+	view.setRotation(rotation);
+	window->setView(view);
+}
 void Camera::Update()
 {
 	//fix window size
@@ -47,9 +53,7 @@ void Camera::Update()
 	}
 	zoom = targetZoom;
 	//zoom = Lerp(zoom, targetZoom, 0.01f);
-	view = sf::View(toFloatRect());
-	view.setRotation(rotation);
-	window->setView(view);
+
 	prevMousePos = inp.mousePos;
 }
 void Camera::RenderMenu(Menu menu, double dt)
@@ -57,6 +61,7 @@ void Camera::RenderMenu(Menu menu, double dt)
 	sf::View menuView(sf::FloatRect(0.f, 0.f, width, height));
 	window->setView(menuView);
 	menu.Render(dt);
+	UpdateView();
 }
 sf::FloatRect Camera::toFloatRect()
 {

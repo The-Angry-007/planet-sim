@@ -34,7 +34,9 @@ void Game::NewGame()
 	Structure structure;
 	structure.AddPart(new Thruster(0, b2Vec2(0.f, 10.f), 0.f));
 	structure.AddPart(new FuelTank(0, b2Vec2(0.f, 12.f), b2_pi));
+	structure.AddPart(new FuelTank(0, b2Vec2(0.f, 13.f), b2_pi));
 	structure.AddConnection(0, 1);
+	structure.AddConnection(1, 2);
 	structure.focused = true;
 	structures.push_back(structure);
 }
@@ -80,12 +82,13 @@ void Game::Update(double dt)
 	{
 		return;
 	}
+	//update box2d world
+	world->Step(dt, 6, 2);
+
 	for (uint i = 0; i < structures.size(); i++)
 	{
 		structures[i].Update(dt);
 	}
-	//update box2d world
-	world->Step(dt, 6, 2);
 }
 void Game::TogglePaused()
 {

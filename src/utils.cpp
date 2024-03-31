@@ -67,3 +67,16 @@ std::vector<std::string> split(std::string str, char splitter)
 	}
 	return list;
 }
+bool mouseTouchingBody(b2Body* body)
+{
+	sf::Vector2f worldPos = window->mapPixelToCoords((sf::Vector2i)inp.mousePos);
+	b2Vec2 b2Pos(worldPos.x / 128.f, -worldPos.y / 128.f);
+	for (b2Fixture* f = body->GetFixtureList(); f; f = f->GetNext())
+	{
+		if (f->TestPoint(b2Pos))
+		{
+			return true;
+		}
+	}
+	return false;
+}
