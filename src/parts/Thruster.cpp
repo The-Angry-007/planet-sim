@@ -112,15 +112,16 @@ void Thruster::Update(double dt)
 {
 	float targetAngle = 0.f;
 	float angle = body->GetAngle();
+	float turnAngle = 0.f;
 	if (inp.keyDown(sf::Keyboard::Key::Left))
 	{
-		angle -= 0.15f;
 		targetAngle -= 0.2f;
+		turnAngle += 0.05f;
 	}
 	if (inp.keyDown(sf::Keyboard::Key::Right))
 	{
-		angle += 0.15f;
 		targetAngle += 0.2f;
+		turnAngle -= 0.05f;
 	}
 	if (inp.mbPressed(sf::Mouse::Button::Left) && mouseTouchingBody(body))
 	{
@@ -139,6 +140,7 @@ void Thruster::Update(double dt)
 		float mag = 150000.f * game->thrusterThrottle;
 		b2Vec2 force(mag * -sin(angle), mag * cos(angle));
 		body->ApplyForce(force, point, true);
+		body->ApplyTorque(mag * turnAngle, true);
 	}
 	coneAngle = Lerp(coneAngle, targetAngle, dt * 10.f);
 }

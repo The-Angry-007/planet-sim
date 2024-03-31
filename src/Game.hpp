@@ -14,6 +14,8 @@ public:
 	void TogglePaused();
 	void NewGame();
 	float thrusterThrottle;
+	float timeScale;
+	bool frozen;
 	b2World* world;
 	b2Body* groundBody;
 	std::vector<b2Body*> blocks;

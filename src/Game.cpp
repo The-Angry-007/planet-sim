@@ -42,7 +42,8 @@ void Game::NewGame()
 }
 void Game::Init(bool newGame)
 {
-
+	timeScale = 1.f;
+	frozen = false;
 	this->savePath = SaveHandler::workingDir;
 	paused = false;
 	b2Vec2 gravity(0.f, 0.f);
@@ -82,8 +83,17 @@ void Game::Update(double dt)
 	{
 		return;
 	}
+	if (inp.keyPressed(sf::Keyboard::Space))
+	{
+		frozen = !frozen;
+		timeScale = 1.f;
+		if (frozen)
+		{
+			timeScale = 0.f;
+		}
+	}
 	//update box2d world
-	world->Step(dt, 6, 2);
+	world->Step(dt * timeScale, 6, 2);
 
 	for (uint i = 0; i < structures.size(); i++)
 	{
