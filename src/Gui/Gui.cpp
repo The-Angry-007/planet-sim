@@ -44,6 +44,10 @@ void Gui::Update()
 			inp.RemoveMouseButtonDown(sf::Mouse::Button::Left);
 		}
 	}
+	for (uint i = 0; i < sliders.size(); i++)
+	{
+		sliders[i].Update();
+	}
 }
 void Gui::Render(float dt)
 {
@@ -62,6 +66,10 @@ void Gui::Render(float dt)
 	for (uint i = 0; i < inpFields.size(); i++)
 	{
 		inpFields[i].Render();
+	}
+	for (uint i = 0; i < sliders.size(); i++)
+	{
+		sliders[i].Render();
 	}
 	this->RenderFps(dt);
 }
@@ -88,4 +96,9 @@ void Gui::AddPanel(Panel panel)
 void Gui::AddInpField(InputField field)
 {
 	inpFields.push_back(field);
+}
+
+void Gui::AddSlider(Slider slider)
+{
+	sliders.push_back(slider);
 }

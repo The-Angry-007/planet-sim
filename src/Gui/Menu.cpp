@@ -103,6 +103,7 @@ Menu InitMenu()
 	{
 		std::cout << "did not open correctly" << std::endl;
 	}
+
 	mainMenu.AddPanel(Panel(sf::FloatRect(0.f, 0.f, 1.f, 1.f), sf::Color(100, 100, 100)));
 	mainMenu.AddButton(Button(sf::Vector2f(0.5f, 1.f), sf::Vector2f(1.f, 2.f), sf::Color::Transparent, moon));
 	mainMenu.AddButton(Button(sf::Vector2f(0.275f, 0.4f), sf::Vector2f(0.325f, 0.1f), sf::Color(50, 50, 50), "New Game", sf::Color::White, ClickFuncs::NewGame));
@@ -132,6 +133,7 @@ Menu InitMenu()
 	m.AddGui(loadGame);
 	Gui mainGame;
 	mainGame.Init();
+	mainGame.AddSlider(Slider(sf::Vector2f(0.5f, 0.5f), sf::Vector2f(0.9f, 0.1f), 0.f));
 	m.AddGui(mainGame);
 	Gui paused;
 	paused.Init();

@@ -20,16 +20,16 @@ Week 2: 25/4 - 31/4 (6/12)
 x Create part class that has mass, position, rotation and box2d component
 x each subclass has an id, which links to a specific texture
 x create subclass for thruster and subclass for fuel tank
-####YOU ARE HERE####
-- write a function that can save each subclass and load it in again
+x write a function that can save each subclass and load it in again
 x mouse creates force to make sure box2d works properly
 x create structure class that has a list of parts, each part is fused together with box2d
 x also a 2d array of integers to show what is connected to what
 	x for n parts, the outer array is n items long and the inner is however many are connected to the ith part
 x add camera class, and can set it to follow a structure
 x thruster can actually thrust
-- thruster has light to show whether it's on, structure class manages which
+x thruster has light to show whether it's on, structure class manages which
 thrusters are on
+####YOU ARE HERE####
 - thruster actually drains the fuel of connected fuel tank
 - gui to show the capacity of any fuel tanks of the selected structure, if 2 are connected show as one big bar
 - maybe add a few other subclasses and then call it quits

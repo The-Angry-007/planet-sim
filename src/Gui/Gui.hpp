@@ -4,6 +4,7 @@
 #include "Gui/Label.hpp"
 #include "Gui/Menu.hpp"
 #include "Gui/Panel.hpp"
+#include "Gui/Slider.hpp"
 void AddClicked();
 void SelectClicked();
 void DeleteClicked();
@@ -24,6 +25,7 @@ public:
 	void AddLabel(Label label);
 	void AddPanel(Panel panel);
 	void AddInpField(InputField field);
+	void AddSlider(Slider slider);
 	void RenderFps(float dt);
 	Gui();
 	//public so that contents can be read
@@ -34,4 +36,5 @@ private:
 	std::vector<Button> buttons;
 	std::vector<Label> labels;
 	std::vector<Panel> panels;
+	std::vector<Slider> sliders;
 };

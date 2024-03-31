@@ -51,8 +51,7 @@ void Camera::Update()
 			targetZoom = 100.f;
 		}
 	}
-	zoom = targetZoom;
-	//zoom = Lerp(zoom, targetZoom, 0.01f);
+	zoom = Lerp(zoom, targetZoom, 0.05f);
 
 	prevMousePos = inp.mousePos;
 }
