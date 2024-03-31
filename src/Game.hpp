@@ -13,6 +13,7 @@ public:
 	void Init(bool newGame);
 	void TogglePaused();
 	void NewGame();
+	float thrusterThrottle;
 	b2World* world;
 	b2Body* groundBody;
 	std::vector<b2Body*> blocks;

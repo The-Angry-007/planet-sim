@@ -81,8 +81,9 @@ void Thruster::Render()
 	float worldConeAngle = coneAngle + body->GetAngle();
 	b2Vec2 bpos = body->GetPosition();
 	sf::Vector2f worldPos(bpos.x * 128.f, -bpos.y * 128.f);
-	if (inp.keyDown(sf::Keyboard::Space) && active)
+	if (active)
 	{
+		ignitedSprite->setColor(sf::Color(255, 255, 255, (game->thrusterThrottle * 255.f)));
 		ignitedSprite->setPosition(worldPos);
 		ignitedSprite->setRotation(-worldConeAngle / b2_pi * 180.f);
 		window->draw(*ignitedSprite);
@@ -113,19 +114,19 @@ void Thruster::Update(double dt)
 	float angle = body->GetAngle();
 	if (inp.keyDown(sf::Keyboard::Key::Left))
 	{
-		angle -= 0.1f;
+		angle -= 0.15f;
 		targetAngle -= 0.2f;
 	}
 	if (inp.keyDown(sf::Keyboard::Key::Right))
 	{
-		angle += 0.1f;
+		angle += 0.15f;
 		targetAngle += 0.2f;
 	}
 	if (inp.mbPressed(sf::Mouse::Button::Left) && mouseTouchingBody(body))
 	{
 		active = !active;
 	}
-	if (inp.keyDown(sf::Keyboard::Key::Space) && active)
+	if (active)
 	{
 		b2Vec2 centre = body->GetPosition();
 
@@ -135,7 +136,7 @@ void Thruster::Update(double dt)
 		worldOffset.y = offset.x * sin(angle) + offset.y * cos(angle);
 		b2Vec2 point = worldOffset + centre;
 
-		float mag = 150000.f;
+		float mag = 150000.f * game->thrusterThrottle;
 		b2Vec2 force(mag * -sin(angle), mag * cos(angle));
 		body->ApplyForce(force, point, true);
 	}

@@ -62,7 +62,7 @@ void Game::Init(bool newGame)
 	groundBody->CreateFixture(&groundBox, 0.0f); // Density is 0.0f because it's static
 
 	timePassed = new sf::Clock();
-
+	thrusterThrottle = 0.f;
 	if (newGame)
 	{
 		NewGame();

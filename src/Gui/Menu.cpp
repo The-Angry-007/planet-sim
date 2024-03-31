@@ -133,7 +133,10 @@ Menu InitMenu()
 	m.AddGui(loadGame);
 	Gui mainGame;
 	mainGame.Init();
-	mainGame.AddSlider(Slider(sf::Vector2f(0.5f, 0.5f), sf::Vector2f(0.9f, 0.1f), 0.f));
+	Slider s(sf::Vector2f(0.9f, 0.9f), sf::Vector2f(0.03f, 0.3f));
+	s.updateFunction = ClickFuncs::SetThrottle;
+	mainGame.AddSlider(s);
+	mainGame.AddLabel(Label("Throttle", sf::FloatRect(0.85f, 0.9f, 0.1f, 0.1f), sf::Color::White));
 	m.AddGui(mainGame);
 	Gui paused;
 	paused.Init();
